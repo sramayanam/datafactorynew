@@ -11,14 +11,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSQLControlDB'"
 		},
-		"EnterpriseDataLake_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'EnterpriseDataLake'"
-		},
-		"OraLinkedService_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'OraLinkedService'"
-		},
 		"SparkCompute_accessToken": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'SparkCompute'"
@@ -30,10 +22,6 @@
 		"OnpremPostGres_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'OnpremPostGres'"
-		},
-		"EnterpriseDataLake_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://scrdatalake.dfs.core.windows.net"
 		},
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"type": "string",
@@ -58,36 +46,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/EnterpriseDataLake')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('EnterpriseDataLake_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('EnterpriseDataLake_accountKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/OraLinkedService')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "Oracle",
-				"typeProperties": {
-					"connectionString": "[parameters('OraLinkedService_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/SparkCompute')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -95,12 +53,12 @@
 				"annotations": [],
 				"type": "AzureDatabricks",
 				"typeProperties": {
-					"domain": "https://southcentralus.azuredatabricks.net",
+					"domain": "https://eastus.azuredatabricks.net",
 					"accessToken": {
 						"type": "SecureString",
 						"value": "[parameters('SparkCompute_accessToken')]"
 					},
-					"existingClusterId": "0416-222814-cat311"
+					"existingClusterId": "1008-220050-hang812"
 				}
 			},
 			"dependsOn": []
@@ -139,7 +97,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Notebook1",
+						"name": "LoadSensorData",
 						"type": "DatabricksNotebook",
 						"dependsOn": [],
 						"policy": {
@@ -181,6 +139,26 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/SparkCompute')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseExternal_ControlTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "External control table to store high water mark value.",
+				"linkedServiceName": {
+					"referenceName": "AzureSQLControlDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"typeProperties": {
+					"tableName": "watermarktable"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSQLControlDB')]"
 			]
 		},
 		{
@@ -248,26 +226,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/shintegrationruntime')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseExternal_ControlTable')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "External control table to store high water mark value.",
-				"linkedServiceName": {
-					"referenceName": "AzureSQLControlDB",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"typeProperties": {
-					"tableName": "watermarktable"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSQLControlDB')]"
 			]
 		},
 		{
@@ -351,7 +309,10 @@
 						"typeProperties": {
 							"source": {
 								"type": "PostgreSqlSource",
-								"query": "select * from @{pipeline().parameters.Data_Source_Table_Name} where @{pipeline().parameters.Data_Source_WaterMarkColumn} > '@{activity('LookupLastWaterMark').output.firstRow.WatermarkValue}' and @{pipeline().parameters.Data_Source_WaterMarkColumn} <= '@{activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue}'"
+								"query": {
+									"value": "select * from @{pipeline().parameters.Data_Source_Table_Name} where @{pipeline().parameters.Data_Source_WaterMarkColumn} > '@{activity('LookupLastWaterMark').output.firstRow.WatermarkValue}' and @{pipeline().parameters.Data_Source_WaterMarkColumn} <= '@{activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue}'",
+									"type": "Expression"
+								}
 							},
 							"sink": {
 								"type": "DelimitedTextSink",
@@ -432,7 +393,10 @@
 						"typeProperties": {
 							"source": {
 								"type": "PostgreSqlSource",
-								"query": "select max(@{pipeline().parameters.Data_Source_WaterMarkColumn}) as NewWatermarkValue from @{pipeline().parameters.Data_Source_Table_Name}"
+								"query": {
+									"value": "select max(@{pipeline().parameters.Data_Source_WaterMarkColumn}) as NewWatermarkValue from @{pipeline().parameters.Data_Source_Table_Name}",
+									"type": "Expression"
+								}
 							},
 							"dataset": {
 								"referenceName": "SourceDataset_eqk",

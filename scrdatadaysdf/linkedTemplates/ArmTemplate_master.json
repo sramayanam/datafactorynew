@@ -11,17 +11,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSQLControlDB'"
 		},
-		"EnterpriseDataLake_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'EnterpriseDataLake'"
-		},
 		"OnpremPostGres_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'OnpremPostGres'"
-		},
-		"OraLinkedService_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'OraLinkedService'"
 		},
 		"SparkCompute_accessToken": {
 			"type": "secureString",
@@ -30,10 +22,6 @@
 		"enterprisecloudstorage_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'enterprisecloudstorage'"
-		},
-		"EnterpriseDataLake_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://scrdatalake.dfs.core.windows.net"
 		},
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"type": "string",
@@ -69,12 +57,6 @@
 					"AzureSQLControlDB_connectionString": {
 						"value": "[parameters('AzureSQLControlDB_connectionString')]"
 					},
-					"EnterpriseDataLake_accountKey": {
-						"value": "[parameters('EnterpriseDataLake_accountKey')]"
-					},
-					"OraLinkedService_connectionString": {
-						"value": "[parameters('OraLinkedService_connectionString')]"
-					},
 					"SparkCompute_accessToken": {
 						"value": "[parameters('SparkCompute_accessToken')]"
 					},
@@ -83,9 +65,6 @@
 					},
 					"OnpremPostGres_connectionString": {
 						"value": "[parameters('OnpremPostGres_connectionString')]"
-					},
-					"EnterpriseDataLake_properties_typeProperties_url": {
-						"value": "[parameters('EnterpriseDataLake_properties_typeProperties_url')]"
 					},
 					"enterprisecloudstorage_properties_typeProperties_url": {
 						"value": "[parameters('enterprisecloudstorage_properties_typeProperties_url')]"

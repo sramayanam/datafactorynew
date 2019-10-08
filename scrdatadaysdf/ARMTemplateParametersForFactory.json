@@ -8,13 +8,7 @@
 		"AzureSQLControlDB_connectionString": {
 			"value": ""
 		},
-		"EnterpriseDataLake_accountKey": {
-			"value": ""
-		},
 		"OnpremPostGres_connectionString": {
-			"value": ""
-		},
-		"OraLinkedService_connectionString": {
 			"value": ""
 		},
 		"SparkCompute_accessToken": {
@@ -22,9 +16,6 @@
 		},
 		"enterprisecloudstorage_accountKey": {
 			"value": ""
-		},
-		"EnterpriseDataLake_properties_typeProperties_url": {
-			"value": "https://scrdatalake.dfs.core.windows.net"
 		},
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"value": "https://scrdatadayslake.dfs.core.windows.net"
