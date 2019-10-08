@@ -54,6 +54,14 @@
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://scrdatadayslake.dfs.core.windows.net"
+		},
+		"AzureBlobFSDataDestination_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@CONCAT('DeltaCopyfromDB_using_ControlTable-', pipeline().RunId, '.txt')"
+		},
+		"AzureBlobFSDataDestination_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "@dataset().FolderPath"
 		}
 	},
 	"variables": {
@@ -61,7 +69,7 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/DeltaCopyfromORA')]",
+			"name": "[concat(parameters('factoryName'), '/DeltaCopyfromPostGres')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -146,10 +154,19 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "PostgreSqlSource"
+								"type": "PostgreSqlSource",
+								"query": "select * from @{pipeline().parameters.Data_Source_Table_Name} where @{pipeline().parameters.Data_Source_WaterMarkColumn} > '@{activity('LookupLastWaterMark').output.firstRow.WatermarkValue}' and @{pipeline().parameters.Data_Source_WaterMarkColumn} <= '@{activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue}'"
 							},
 							"sink": {
-								"type": "AzureBlobFSSink"
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
 							},
 							"enableStaging": false,
 							"dataIntegrationUnits": 0
@@ -163,14 +180,9 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "AzureBlobFSDataDestination1",
+								"referenceName": "DestinationDataset_eqk",
 								"type": "DatasetReference",
-								"parameters": {
-									"FolderPath": {
-										"value": "@pipeline().parameters.Data_Destination_Folder_Path",
-										"type": "Expression"
-									}
-								}
+								"parameters": {}
 							}
 						]
 					},
@@ -238,7 +250,7 @@
 				"[concat(variables('factoryId'), '/datasets/AzureSqlDatabaseExternal_ControlTable1')]",
 				"[concat(variables('factoryId'), '/datasets/OracleDataSource1')]",
 				"[concat(variables('factoryId'), '/datasets/SourceDataset_eqk')]",
-				"[concat(variables('factoryId'), '/datasets/AzureBlobFSDataDestination1')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_eqk')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureSQLControlDB')]"
 			]
 		},
@@ -768,6 +780,82 @@
 				"typeProperties": {}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OracleDataSource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Connection to your source data store.",
+				"linkedServiceName": {
+					"referenceName": "OraLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "OracleTable",
+				"typeProperties": {
+					"tableName": "DataSourceTable"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/OraLinkedService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobFSDataDestination')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Connection to your destination data store.",
+				"linkedServiceName": {
+					"referenceName": "EnterpriseDataLake",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderPath": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "AzureBlobFSFile",
+				"typeProperties": {
+					"format": {
+						"type": "TextFormat",
+						"treatEmptyAsNull": true
+					},
+					"fileName": {
+						"value": "[parameters('AzureBlobFSDataDestination_properties_typeProperties_fileName')]",
+						"type": "Expression"
+					},
+					"folderPath": {
+						"value": "[parameters('AzureBlobFSDataDestination_properties_typeProperties_folderPath')]",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/EnterpriseDataLake')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseExternal_ControlTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "External control table to store high water mark value.",
+				"linkedServiceName": {
+					"referenceName": "AzureSQLControlDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"typeProperties": {
+					"tableName": "watermarktable"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSQLControlDB')]"
+			]
 		}
 	]
 }

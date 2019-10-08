@@ -41,6 +41,12 @@
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"value": "https://scrdatadayslake.dfs.core.windows.net"
 		},
+		"AzureBlobFSDataDestination_properties_typeProperties_fileName": {
+			"value": "@CONCAT('DeltaCopyfromDB_using_ControlTable-', pipeline().RunId, '.txt')"
+		},
+		"AzureBlobFSDataDestination_properties_typeProperties_folderPath": {
+			"value": "@dataset().FolderPath"
+		},
 		"containerUri": {
 			"value": ""
 		},

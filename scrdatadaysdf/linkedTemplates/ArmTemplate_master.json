@@ -55,6 +55,14 @@
 			"type": "string",
 			"defaultValue": "https://scrdatadayslake.dfs.core.windows.net"
 		},
+		"AzureBlobFSDataDestination_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@CONCAT('DeltaCopyfromDB_using_ControlTable-', pipeline().RunId, '.txt')"
+		},
+		"AzureBlobFSDataDestination_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "@dataset().FolderPath"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -117,6 +125,12 @@
 					},
 					"AzureGen2DLAirlineData_properties_typeProperties_folderPath": {
 						"value": "[parameters('AzureGen2DLAirlineData_properties_typeProperties_folderPath')]"
+					},
+					"AzureBlobFSDataDestination_properties_typeProperties_fileName": {
+						"value": "[parameters('AzureBlobFSDataDestination_properties_typeProperties_fileName')]"
+					},
+					"AzureBlobFSDataDestination_properties_typeProperties_folderPath": {
+						"value": "[parameters('AzureBlobFSDataDestination_properties_typeProperties_folderPath')]"
 					}
 				}
 			},
