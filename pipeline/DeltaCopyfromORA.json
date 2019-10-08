@@ -151,15 +151,15 @@
 		"parameters": {
 			"Data_Source_Table_Name": {
 				"type": "String",
-				"defaultValue": "ORDERS"
+				"defaultValue": "orders"
 			},
 			"Data_Source_WaterMarkColumn": {
 				"type": "String",
-				"defaultValue": "ORDER_DATE"
+				"defaultValue": "order_date"
 			},
 			"Data_Destination_Folder_Path": {
 				"type": "String",
-				"defaultValue": "/stage/orders/"
+				"defaultValue": "/rawdata/orders/"
 			},
 			"Control_Table_Table_Name": {
 				"type": "String",
