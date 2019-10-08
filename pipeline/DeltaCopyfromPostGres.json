@@ -38,21 +38,7 @@
 					"retry": 0,
 					"retryIntervalInSeconds": 30
 				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "OracleSource",
-						"oracleReaderQuery": {
-							"value": "SELECT\nMAX(@{pipeline().parameters.Data_Source_WaterMarkColumn}) as NewWatermarkValue\nfrom @{pipeline().parameters.Data_Source_Table_Name}",
-							"type": "Expression"
-						},
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "OracleDataSource1",
-						"type": "DatasetReference"
-					}
-				}
+				"userProperties": []
 			},
 			{
 				"name": "DeltaCopyfromDB",
