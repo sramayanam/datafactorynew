@@ -41,7 +41,8 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "AzureSqlSource"
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select max(@{pipeline().parameters.Data_Source_WaterMarkColumn}) as NewWatermarkValue from @{pipeline().parameters.Data_Source_Table_Name}"
 					},
 					"dataset": {
 						"referenceName": "AzureSqlDatabaseExternal_ControlTable",
