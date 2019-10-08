@@ -84,7 +84,15 @@
 						"query": "select * from @{pipeline().parameters.Data_Source_Table_Name} where @{pipeline().parameters.Data_Source_WaterMarkColumn} > '@{activity('LookupLastWaterMark').output.firstRow.WatermarkValue}' and @{pipeline().parameters.Data_Source_WaterMarkColumn} <= '@{activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue}'"
 					},
 					"sink": {
-						"type": "AzureBlobFSSink"
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"dataIntegrationUnits": 0
@@ -97,14 +105,8 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureBlobFSDataDestination1",
-						"type": "DatasetReference",
-						"parameters": {
-							"FolderPath": {
-								"value": "@pipeline().parameters.Data_Destination_Folder_Path",
-								"type": "Expression"
-							}
-						}
+						"referenceName": "DestinationDataset_eqk",
+						"type": "DatasetReference"
 					}
 				]
 			},
