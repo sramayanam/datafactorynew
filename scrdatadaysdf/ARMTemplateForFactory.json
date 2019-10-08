@@ -523,6 +523,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"folderPath": "orders",
 						"fileSystem": "rawdata"
 					},
 					"columnDelimiter": "|",
