@@ -38,7 +38,16 @@
 					"retry": 0,
 					"retryIntervalInSeconds": 30
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource"
+					},
+					"dataset": {
+						"referenceName": "AzureSqlDatabaseExternal_ControlTable",
+						"type": "DatasetReference"
+					}
+				}
 			},
 			{
 				"name": "DeltaCopyfromDB",
