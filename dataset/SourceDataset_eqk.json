@@ -1,0 +1,16 @@
+{
+	"name": "SourceDataset_eqk",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "OnpremPostGres",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "PostgreSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "public",
+			"table": "orders"
+		}
+	}
+}
