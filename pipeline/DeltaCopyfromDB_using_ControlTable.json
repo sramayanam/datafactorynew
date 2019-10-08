@@ -1,5 +1,5 @@
 {
-	"name": "DeltaCopyfromPostGres",
+	"name": "DeltaCopyfromDB_using_ControlTable",
 	"properties": {
 		"description": "Copy new or updated rows only from database using external control table",
 		"activities": [
@@ -23,7 +23,7 @@
 						}
 					},
 					"dataset": {
-						"referenceName": "AzureSqlDatabaseExternal_ControlTable1",
+						"referenceName": "AzureSqlDatabaseExternal_ControlTable",
 						"type": "DatasetReference"
 					}
 				}
@@ -42,14 +42,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": {
-							"value": "SELECT\nMAX(@{pipeline().parameters.Data_Source_WaterMarkColumn}) as NewWatermarkValue\nfrom @{pipeline().parameters.Data_Source_Table_Name}",
-							"type": "Expression"
-						},
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "OracleDataSource1",
+						"referenceName": "OracleDataSource",
 						"type": "DatasetReference"
 					}
 				}
@@ -80,8 +76,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "PostgreSqlSource",
-						"query": "select * from @{pipeline().parameters.Data_Source_Table_Name} where @{pipeline().parameters.Data_Source_WaterMarkColumn} > '@{activity('LookupLastWaterMark').output.firstRow.WatermarkValue}' and @{pipeline().parameters.Data_Source_WaterMarkColumn} <= '@{activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue}'"
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "select * from @{pipeline().parameters.Data_Source_Table_Name} where @{pipeline().parameters.Data_Source_WaterMarkColumn} > '@{activity('LookupLastWaterMark').output.firstRow.WatermarkValue}' and @{pipeline().parameters.Data_Source_WaterMarkColumn} <= '@{activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue}'",
+							"type": "Expression"
+						},
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "AzureBlobFSSink"
@@ -91,13 +91,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceDataset_eqk",
+						"referenceName": "OracleDataSource",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureBlobFSDataDestination1",
+						"referenceName": "AzureBlobFSDataDestination",
 						"type": "DatasetReference",
 						"parameters": {
 							"FolderPath": {
@@ -127,9 +127,8 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[update_watermark]",
 					"storedProcedureParameters": {
-						"LastModifiedtime": {
+						"LastModifyDate": {
 							"value": {
 								"value": "@activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue",
 								"type": "Expression"
@@ -146,27 +145,21 @@
 		],
 		"parameters": {
 			"Data_Source_Table_Name": {
-				"type": "String",
-				"defaultValue": "orders"
+				"type": "String"
 			},
 			"Data_Source_WaterMarkColumn": {
-				"type": "String",
-				"defaultValue": "order_date"
+				"type": "String"
 			},
 			"Data_Destination_Folder_Path": {
-				"type": "String",
-				"defaultValue": "/rawdata/orders/"
+				"type": "String"
 			},
 			"Control_Table_Table_Name": {
-				"type": "String",
-				"defaultValue": "watermarktable"
+				"type": "String"
 			},
 			"Control_Table_Column_Name": {
-				"type": "String",
-				"defaultValue": "WatermarkValue"
+				"type": "String"
 			}
 		},
 		"annotations": []
-	},
-	"type": "Microsoft.DataFactory/factories/pipelines"
+	}
 }
