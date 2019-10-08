@@ -18,7 +18,7 @@
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
 			"blobPathBeginsWith": "/samples/blobs/",
-			"blobPathEndsWith": "csv",
+			"blobPathEndsWith": ".csv",
 			"scope": "/subscriptions/29223a3c-4017-4e62-9ba6-878f392b78e7/resourceGroups/scrdataaidays/providers/Microsoft.Storage/storageAccounts/scrdataaidays6208908056",
 			"events": [
 				"Microsoft.Storage.BlobCreated"
