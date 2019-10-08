@@ -1,0 +1,126 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "scrdatadaysdf"
+		},
+		"AzureSQLControlDB_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSQLControlDB'"
+		},
+		"EnterpriseDataLake_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'EnterpriseDataLake'"
+		},
+		"OnpremPostGres_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'OnpremPostGres'"
+		},
+		"OraLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'OraLinkedService'"
+		},
+		"SparkCompute_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'SparkCompute'"
+		},
+		"enterprisecloudstorage_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'enterprisecloudstorage'"
+		},
+		"AzureBlobFSDataDestination1_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@CONCAT('DeltaCopyfromDB_using_ControlTable-', pipeline().RunId, '.txt')"
+		},
+		"AzureBlobFSDataDestination1_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "@dataset().FolderPath"
+		},
+		"AzureGen2DLAirlineData_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": ""
+		},
+		"AzureGen2DLAirlineData_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "stage/airlinedata"
+		},
+		"EnterpriseDataLake_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://scrdatalake.dfs.core.windows.net"
+		},
+		"enterprisecloudstorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://scrdatadayslake.dfs.core.windows.net"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureSQLControlDB_connectionString": {
+						"value": "[parameters('AzureSQLControlDB_connectionString')]"
+					},
+					"EnterpriseDataLake_accountKey": {
+						"value": "[parameters('EnterpriseDataLake_accountKey')]"
+					},
+					"OraLinkedService_connectionString": {
+						"value": "[parameters('OraLinkedService_connectionString')]"
+					},
+					"SparkCompute_accessToken": {
+						"value": "[parameters('SparkCompute_accessToken')]"
+					},
+					"enterprisecloudstorage_accountKey": {
+						"value": "[parameters('enterprisecloudstorage_accountKey')]"
+					},
+					"OnpremPostGres_connectionString": {
+						"value": "[parameters('OnpremPostGres_connectionString')]"
+					},
+					"EnterpriseDataLake_properties_typeProperties_url": {
+						"value": "[parameters('EnterpriseDataLake_properties_typeProperties_url')]"
+					},
+					"enterprisecloudstorage_properties_typeProperties_url": {
+						"value": "[parameters('enterprisecloudstorage_properties_typeProperties_url')]"
+					},
+					"AzureBlobFSDataDestination1_properties_typeProperties_fileName": {
+						"value": "[parameters('AzureBlobFSDataDestination1_properties_typeProperties_fileName')]"
+					},
+					"AzureBlobFSDataDestination1_properties_typeProperties_folderPath": {
+						"value": "[parameters('AzureBlobFSDataDestination1_properties_typeProperties_folderPath')]"
+					},
+					"AzureGen2DLAirlineData_properties_typeProperties_fileName": {
+						"value": "[parameters('AzureGen2DLAirlineData_properties_typeProperties_fileName')]"
+					},
+					"AzureGen2DLAirlineData_properties_typeProperties_folderPath": {
+						"value": "[parameters('AzureGen2DLAirlineData_properties_typeProperties_folderPath')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

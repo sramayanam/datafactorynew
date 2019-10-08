@@ -1,0 +1,270 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "scrdatadaysdf"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Extract_OnPremData')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_postgres_to_datalake",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "public.orders"
+							},
+							{
+								"name": "Destination",
+								"value": "rawdata//"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "PostgreSqlSource"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "order_id",
+											"type": "Int16"
+										},
+										"sink": {
+											"name": "order_id",
+											"type": "Int16"
+										}
+									},
+									{
+										"source": {
+											"name": "customer_id",
+											"type": "String"
+										},
+										"sink": {
+											"name": "customer_id",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "employee_id",
+											"type": "Int16"
+										},
+										"sink": {
+											"name": "employee_id",
+											"type": "Int16"
+										}
+									},
+									{
+										"source": {
+											"name": "order_date",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "order_date",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "required_date",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "required_date",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "shipped_date",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "shipped_date",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "ship_via",
+											"type": "Int16"
+										},
+										"sink": {
+											"name": "ship_via",
+											"type": "Int16"
+										}
+									},
+									{
+										"source": {
+											"name": "freight",
+											"type": "Single"
+										},
+										"sink": {
+											"name": "freight",
+											"type": "Single"
+										}
+									},
+									{
+										"source": {
+											"name": "ship_name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ship_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ship_address",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ship_address",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ship_city",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ship_city",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ship_region",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ship_region",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ship_postal_code",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ship_postal_code",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ship_country",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ship_country",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_eqk",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_eqk",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_eqk')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_eqk')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_eqk')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "enterprisecloudstorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "rawdata"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_eqk')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "OnpremPostGres",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "PostgreSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "public",
+					"table": "orders"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

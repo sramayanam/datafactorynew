@@ -1,0 +1,51 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "scrdatadaysdf"
+		},
+		"AzureSQLControlDB_connectionString": {
+			"value": ""
+		},
+		"EnterpriseDataLake_accountKey": {
+			"value": ""
+		},
+		"OnpremPostGres_connectionString": {
+			"value": ""
+		},
+		"OraLinkedService_connectionString": {
+			"value": ""
+		},
+		"SparkCompute_accessToken": {
+			"value": ""
+		},
+		"enterprisecloudstorage_accountKey": {
+			"value": ""
+		},
+		"AzureBlobFSDataDestination1_properties_typeProperties_fileName": {
+			"value": "@CONCAT('DeltaCopyfromDB_using_ControlTable-', pipeline().RunId, '.txt')"
+		},
+		"AzureBlobFSDataDestination1_properties_typeProperties_folderPath": {
+			"value": "@dataset().FolderPath"
+		},
+		"AzureGen2DLAirlineData_properties_typeProperties_fileName": {
+			"value": ""
+		},
+		"AzureGen2DLAirlineData_properties_typeProperties_folderPath": {
+			"value": "stage/airlinedata"
+		},
+		"EnterpriseDataLake_properties_typeProperties_url": {
+			"value": "https://scrdatalake.dfs.core.windows.net"
+		},
+		"enterprisecloudstorage_properties_typeProperties_url": {
+			"value": "https://scrdatadayslake.dfs.core.windows.net"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
