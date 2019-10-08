@@ -31,22 +31,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'enterprisecloudstorage'"
 		},
-		"AzureBlobFSDataDestination1_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "@CONCAT('DeltaCopyfromDB_using_ControlTable-', pipeline().RunId, '.txt')"
-		},
-		"AzureBlobFSDataDestination1_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "@dataset().FolderPath"
-		},
-		"AzureGen2DLAirlineData_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": ""
-		},
-		"AzureGen2DLAirlineData_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "stage/airlinedata"
-		},
 		"EnterpriseDataLake_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://scrdatalake.dfs.core.windows.net"
@@ -54,14 +38,6 @@
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://scrdatadayslake.dfs.core.windows.net"
-		},
-		"AzureBlobFSDataDestination_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "@CONCAT('DeltaCopyfromDB_using_ControlTable-', pipeline().RunId, '.txt')"
-		},
-		"AzureBlobFSDataDestination_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "@dataset().FolderPath"
 		},
 		"containerUri": {
 			"type": "string",
@@ -113,24 +89,6 @@
 					},
 					"enterprisecloudstorage_properties_typeProperties_url": {
 						"value": "[parameters('enterprisecloudstorage_properties_typeProperties_url')]"
-					},
-					"AzureBlobFSDataDestination1_properties_typeProperties_fileName": {
-						"value": "[parameters('AzureBlobFSDataDestination1_properties_typeProperties_fileName')]"
-					},
-					"AzureBlobFSDataDestination1_properties_typeProperties_folderPath": {
-						"value": "[parameters('AzureBlobFSDataDestination1_properties_typeProperties_folderPath')]"
-					},
-					"AzureGen2DLAirlineData_properties_typeProperties_fileName": {
-						"value": "[parameters('AzureGen2DLAirlineData_properties_typeProperties_fileName')]"
-					},
-					"AzureGen2DLAirlineData_properties_typeProperties_folderPath": {
-						"value": "[parameters('AzureGen2DLAirlineData_properties_typeProperties_folderPath')]"
-					},
-					"AzureBlobFSDataDestination_properties_typeProperties_fileName": {
-						"value": "[parameters('AzureBlobFSDataDestination_properties_typeProperties_fileName')]"
-					},
-					"AzureBlobFSDataDestination_properties_typeProperties_folderPath": {
-						"value": "[parameters('AzureBlobFSDataDestination_properties_typeProperties_folderPath')]"
 					}
 				}
 			},

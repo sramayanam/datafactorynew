@@ -38,30 +38,6 @@
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://scrdatadayslake.dfs.core.windows.net"
-		},
-		"AzureBlobFSDataDestination1_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "@CONCAT('DeltaCopyfromDB_using_ControlTable-', pipeline().RunId, '.txt')"
-		},
-		"AzureBlobFSDataDestination1_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "@dataset().FolderPath"
-		},
-		"AzureGen2DLAirlineData_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": ""
-		},
-		"AzureGen2DLAirlineData_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "stage/airlinedata"
-		},
-		"AzureBlobFSDataDestination_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "@CONCAT('DeltaCopyfromDB_using_ControlTable-', pipeline().RunId, '.txt')"
-		},
-		"AzureBlobFSDataDestination_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "@dataset().FolderPath"
 		}
 	},
 	"variables": {
@@ -208,75 +184,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobFSDataDestination1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Connection to your destination data store.",
-				"linkedServiceName": {
-					"referenceName": "EnterpriseDataLake",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"FolderPath": {
-						"type": "String"
-					}
-				},
-				"annotations": [],
-				"type": "AzureBlobFSFile",
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"treatEmptyAsNull": true
-					},
-					"fileName": {
-						"value": "[parameters('AzureBlobFSDataDestination1_properties_typeProperties_fileName')]",
-						"type": "Expression"
-					},
-					"folderPath": {
-						"value": "[parameters('AzureBlobFSDataDestination1_properties_typeProperties_folderPath')]",
-						"type": "Expression"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/EnterpriseDataLake')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureGen2DLAirlineData')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "EnterpriseDataLake",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureBlobFSFile",
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": "|",
-						"rowDelimiter": "",
-						"nullValue": "\\N",
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"compression": {
-						"type": "GZip",
-						"level": "Fastest"
-					},
-					"fileName": "[parameters('AzureGen2DLAirlineData_properties_typeProperties_fileName')]",
-					"folderPath": "[parameters('AzureGen2DLAirlineData_properties_typeProperties_folderPath')]"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/EnterpriseDataLake')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseExternal_ControlTable1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -324,26 +231,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/OracleDataSource1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Connection to your source data store.",
-				"linkedServiceName": {
-					"referenceName": "OraLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "OracleTable",
-				"typeProperties": {
-					"tableName": "DataSourceTable"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/OraLinkedService')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/OnpremPostGres')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -360,62 +247,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/shintegrationruntime')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/OracleDataSource')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Connection to your source data store.",
-				"linkedServiceName": {
-					"referenceName": "OraLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "OracleTable",
-				"typeProperties": {
-					"tableName": "DataSourceTable"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/OraLinkedService')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobFSDataDestination')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Connection to your destination data store.",
-				"linkedServiceName": {
-					"referenceName": "EnterpriseDataLake",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"FolderPath": {
-						"type": "String"
-					}
-				},
-				"annotations": [],
-				"type": "AzureBlobFSFile",
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"treatEmptyAsNull": true
-					},
-					"fileName": {
-						"value": "[parameters('AzureBlobFSDataDestination_properties_typeProperties_fileName')]",
-						"type": "Expression"
-					},
-					"folderPath": {
-						"value": "[parameters('AzureBlobFSDataDestination_properties_typeProperties_folderPath')]",
-						"type": "Expression"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/EnterpriseDataLake')]"
 			]
 		},
 		{
@@ -505,15 +336,10 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "OracleSource",
-								"oracleReaderQuery": {
-									"value": "SELECT\nMAX(@{pipeline().parameters.Data_Source_WaterMarkColumn}) as NewWatermarkValue\nfrom @{pipeline().parameters.Data_Source_Table_Name}",
-									"type": "Expression"
-								},
-								"partitionOption": "None"
+								"type": "AzureSqlSource"
 							},
 							"dataset": {
-								"referenceName": "OracleDataSource1",
+								"referenceName": "AzureSqlDatabaseExternal_ControlTable",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -639,7 +465,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/AzureSqlDatabaseExternal_ControlTable1')]",
-				"[concat(variables('factoryId'), '/datasets/OracleDataSource1')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlDatabaseExternal_ControlTable')]",
 				"[concat(variables('factoryId'), '/datasets/SourceDataset_eqk')]",
 				"[concat(variables('factoryId'), '/datasets/DestinationDataset_eqk')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureSQLControlDB')]"
