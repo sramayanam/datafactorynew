@@ -26,6 +26,18 @@
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://scrdatadayslake.dfs.core.windows.net"
+		},
+		"onfilearrival_properties_RunSparkJob_parameters_copyFolder": {
+			"type": "string",
+			"defaultValue": "@triggerBody().folderPath"
+		},
+		"onfilearrival_properties_RunSparkJob_parameters_copyFile": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"onfilearrival_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/29223a3c-4017-4e62-9ba6-878f392b78e7/resourceGroups/scrdataaidays/providers/Microsoft.Storage/storageAccounts/scrdataaidays6208908056"
 		}
 	},
 	"variables": {
@@ -247,6 +259,39 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/OnpremPostGres')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/onfilearrival')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "RunSparkJob",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"copyFolder": "[parameters('onfilearrival_properties_RunSparkJob_parameters_copyFolder')]",
+							"copyFile": "[parameters('onfilearrival_properties_RunSparkJob_parameters_copyFile')]"
+						}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/samples/blobs/",
+					"blobPathEndsWith": "csv",
+					"scope": "[parameters('onfilearrival_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/RunSparkJob')]"
 			]
 		},
 		{

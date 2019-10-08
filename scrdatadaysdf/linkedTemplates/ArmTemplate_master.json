@@ -27,6 +27,18 @@
 			"type": "string",
 			"defaultValue": "https://scrdatadayslake.dfs.core.windows.net"
 		},
+		"onfilearrival_properties_RunSparkJob_parameters_copyFolder": {
+			"type": "string",
+			"defaultValue": "@triggerBody().folderPath"
+		},
+		"onfilearrival_properties_RunSparkJob_parameters_copyFile": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"onfilearrival_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/29223a3c-4017-4e62-9ba6-878f392b78e7/resourceGroups/scrdataaidays/providers/Microsoft.Storage/storageAccounts/scrdataaidays6208908056"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -68,6 +80,15 @@
 					},
 					"enterprisecloudstorage_properties_typeProperties_url": {
 						"value": "[parameters('enterprisecloudstorage_properties_typeProperties_url')]"
+					},
+					"onfilearrival_properties_RunSparkJob_parameters_copyFolder": {
+						"value": "[parameters('onfilearrival_properties_RunSparkJob_parameters_copyFolder')]"
+					},
+					"onfilearrival_properties_RunSparkJob_parameters_copyFile": {
+						"value": "[parameters('onfilearrival_properties_RunSparkJob_parameters_copyFile')]"
+					},
+					"onfilearrival_properties_typeProperties_scope": {
+						"value": "[parameters('onfilearrival_properties_typeProperties_scope')]"
 					}
 				}
 			},
