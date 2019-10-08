@@ -80,12 +80,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "OracleSource",
-						"oracleReaderQuery": {
-							"value": "SELECT * FROM\n@{pipeline().parameters.Data_Source_Table_Name}\nWHERE\n@{pipeline().parameters.Data_Source_WaterMarkColumn} > to_timestamp('@{activity('LookupLastWaterMark').output.firstRow.WatermarkValue}' ,'YYYY-MM-DD\"T\"HH24:MI:SS.ff6\"Z\"')\nAND\n@{pipeline().parameters.Data_Source_WaterMarkColumn} <= to_timestamp('@{activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue}','YYYY-MM-DD\"T\"HH24:MI:SS.ff6\"Z\"')",
-							"type": "Expression"
-						},
-						"partitionOption": "None"
+						"type": "PostgreSqlSource"
 					},
 					"sink": {
 						"type": "AzureBlobFSSink"
@@ -95,7 +90,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "OracleDataSource1",
+						"referenceName": "SourceDataset_eqk",
 						"type": "DatasetReference"
 					}
 				],
