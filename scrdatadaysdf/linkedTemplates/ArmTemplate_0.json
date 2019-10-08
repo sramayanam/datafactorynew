@@ -283,7 +283,7 @@
 				"type": "BlobEventsTrigger",
 				"typeProperties": {
 					"blobPathBeginsWith": "/samples/blobs/",
-					"blobPathEndsWith": "csv",
+					"blobPathEndsWith": ".csv",
 					"scope": "[parameters('onfilearrival_properties_typeProperties_scope')]",
 					"events": [
 						"Microsoft.Storage.BlobCreated"
