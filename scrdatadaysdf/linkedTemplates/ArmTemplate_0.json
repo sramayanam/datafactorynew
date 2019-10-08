@@ -355,6 +355,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_eqk')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "OnpremPostGres",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "PostgreSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "public",
+					"table": "orders"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/OnpremPostGres')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DeltaCopyfromORA')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -440,12 +461,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "OracleSource",
-								"oracleReaderQuery": {
-									"value": "SELECT * FROM\n@{pipeline().parameters.Data_Source_Table_Name}\nWHERE\n@{pipeline().parameters.Data_Source_WaterMarkColumn} > to_timestamp('@{activity('LookupLastWaterMark').output.firstRow.WatermarkValue}' ,'YYYY-MM-DD\"T\"HH24:MI:SS.ff6\"Z\"')\nAND\n@{pipeline().parameters.Data_Source_WaterMarkColumn} <= to_timestamp('@{activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue}','YYYY-MM-DD\"T\"HH24:MI:SS.ff6\"Z\"')",
-									"type": "Expression"
-								},
-								"partitionOption": "None"
+								"type": "PostgreSqlSource"
 							},
 							"sink": {
 								"type": "AzureBlobFSSink"
@@ -455,7 +471,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "OracleDataSource1",
+								"referenceName": "SourceDataset_eqk",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -512,15 +528,15 @@
 				"parameters": {
 					"Data_Source_Table_Name": {
 						"type": "String",
-						"defaultValue": "ORDERS"
+						"defaultValue": "orders"
 					},
 					"Data_Source_WaterMarkColumn": {
 						"type": "String",
-						"defaultValue": "ORDER_DATE"
+						"defaultValue": "order_date"
 					},
 					"Data_Destination_Folder_Path": {
 						"type": "String",
-						"defaultValue": "/stage/orders/"
+						"defaultValue": "/rawdata/orders/"
 					},
 					"Control_Table_Table_Name": {
 						"type": "String",
@@ -536,29 +552,9 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/AzureSqlDatabaseExternal_ControlTable1')]",
 				"[concat(variables('factoryId'), '/datasets/OracleDataSource1')]",
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_eqk')]",
 				"[concat(variables('factoryId'), '/datasets/AzureBlobFSDataDestination1')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureSQLControlDB')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceDataset_eqk')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "OnpremPostGres",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "PostgreSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "public",
-					"table": "orders"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/OnpremPostGres')]"
 			]
 		},
 		{
