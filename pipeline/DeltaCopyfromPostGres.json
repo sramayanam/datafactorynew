@@ -29,40 +29,18 @@
 				}
 			},
 			{
-				"name": "LookupCurrentWaterMark",
-				"description": "Retrieve  the current maximum value in watermark column of source data store",
-				"type": "Lookup",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select max(@{pipeline().parameters.Data_Source_WaterMarkColumn}) as NewWatermarkValue from @{pipeline().parameters.Data_Source_Table_Name}"
-					},
-					"dataset": {
-						"referenceName": "AzureSqlDatabaseExternal_ControlTable",
-						"type": "DatasetReference"
-					}
-				}
-			},
-			{
 				"name": "DeltaCopyfromDB",
 				"description": "Copy activity to use query to filter the delta data by > last high-watermark and <= current high-watermark from source database, and then only copy the changes to the destination store.",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "LookupCurrentWaterMark",
+						"activity": "LookupLastWaterMark",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					},
 					{
-						"activity": "LookupLastWaterMark",
+						"activity": "LookupCurrentWaterMark",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -139,6 +117,29 @@
 				"linkedServiceName": {
 					"referenceName": "AzureSQLControlDB",
 					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "LookupCurrentWaterMark",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "PostgreSqlSource",
+						"query": "select max(@{pipeline().parameters.Data_Source_WaterMarkColumn}) as NewWatermarkValue from @{pipeline().parameters.Data_Source_Table_Name}"
+					},
+					"dataset": {
+						"referenceName": "SourceDataset_eqk",
+						"type": "DatasetReference"
+					}
 				}
 			}
 		],
