@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_eqk",
+				"name": "Copy_postgres_to_datalake",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
