@@ -18,7 +18,7 @@
 					"mlPipelineId": "fbb4f92c-5d1e-4c68-a270-71fc95549ee6",
 					"experimentName": "batch_scoring_adf",
 					"mlPipelineParameters": {
-						"param_batch_size": "20"
+						"param_batch_size": "40"
 					}
 				},
 				"linkedServiceName": {
