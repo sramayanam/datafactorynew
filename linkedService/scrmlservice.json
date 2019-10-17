@@ -1,0 +1,16 @@
+{
+	"name": "scrmlservice",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureMLService",
+		"typeProperties": {
+			"subscriptionId": "29223a3c-4017-4e62-9ba6-878f392b78e7",
+			"resourceGroupName": "scrdatadaysengg",
+			"mlWorkspaceName": "scrmlprod",
+			"servicePrincipalId": "f33fda13-9dfc-460b-bf3c-786441d8cf55",
+			"tenant": "32abda43-c361-4230-987c-93d97394d623",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIlNDUkRBVEFEQVlTREZfYmIzZjNhMDItNzgxNy00MjdlLWEwMWQtZDJiYTYyZDUzMmM1Ig0KfQ=="
+		}
+	}
+}
