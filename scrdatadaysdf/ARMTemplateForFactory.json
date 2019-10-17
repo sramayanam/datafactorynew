@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'enterprisecloudstorage'"
 		},
+		"scrmlservice_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'scrmlservice'"
+		},
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://scrdatadayslake.dfs.core.windows.net"
@@ -38,6 +42,22 @@
 		"onfilearrival_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/29223a3c-4017-4e62-9ba6-878f392b78e7/resourceGroups/scrdataaidays/providers/Microsoft.Storage/storageAccounts/scrdataaidays6208908056"
+		},
+		"scrmlservice_properties_typeProperties_subscriptionId": {
+			"type": "string",
+			"defaultValue": "29223a3c-4017-4e62-9ba6-878f392b78e7"
+		},
+		"scrmlservice_properties_typeProperties_resourceGroupName": {
+			"type": "string",
+			"defaultValue": "scrdatadaysengg"
+		},
+		"scrmlservice_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "f33fda13-9dfc-460b-bf3c-786441d8cf55"
+		},
+		"scrmlservice_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "32abda43-c361-4230-987c-93d97394d623"
 		}
 	},
 	"variables": {
@@ -652,16 +672,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/shintegrationruntime')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/onfilearrival')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
@@ -693,6 +703,74 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/RunSparkJob')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/shintegrationruntime')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MLPipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ScoreImages",
+						"type": "AzureMLExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"mlPipelineId": "fbb4f92c-5d1e-4c68-a270-71fc95549ee6",
+							"experimentName": "batch_scoring",
+							"mlPipelineParameters": {
+								"param_batch_size": "20"
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "scrmlservice",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/scrmlservice')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/scrmlservice')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureMLService",
+				"typeProperties": {
+					"subscriptionId": "[parameters('scrmlservice_properties_typeProperties_subscriptionId')]",
+					"resourceGroupName": "[parameters('scrmlservice_properties_typeProperties_resourceGroupName')]",
+					"mlWorkspaceName": "scrmlprod",
+					"servicePrincipalId": "[parameters('scrmlservice_properties_typeProperties_servicePrincipalId')]",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "[parameters('scrmlservice_servicePrincipalKey')]"
+					},
+					"tenant": "[parameters('scrmlservice_properties_typeProperties_tenant')]"
+				}
+			},
+			"dependsOn": []
 		}
 	]
 }

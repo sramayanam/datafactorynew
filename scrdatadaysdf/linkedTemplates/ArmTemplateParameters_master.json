@@ -17,6 +17,9 @@
 		"enterprisecloudstorage_accountKey": {
 			"value": ""
 		},
+		"scrmlservice_servicePrincipalKey": {
+			"value": ""
+		},
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"value": "https://scrdatadayslake.dfs.core.windows.net"
 		},
@@ -28,6 +31,18 @@
 		},
 		"onfilearrival_properties_typeProperties_scope": {
 			"value": "/subscriptions/29223a3c-4017-4e62-9ba6-878f392b78e7/resourceGroups/scrdataaidays/providers/Microsoft.Storage/storageAccounts/scrdataaidays6208908056"
+		},
+		"scrmlservice_properties_typeProperties_subscriptionId": {
+			"value": "29223a3c-4017-4e62-9ba6-878f392b78e7"
+		},
+		"scrmlservice_properties_typeProperties_resourceGroupName": {
+			"value": "scrdatadaysengg"
+		},
+		"scrmlservice_properties_typeProperties_servicePrincipalId": {
+			"value": "f33fda13-9dfc-460b-bf3c-786441d8cf55"
+		},
+		"scrmlservice_properties_typeProperties_tenant": {
+			"value": "32abda43-c361-4230-987c-93d97394d623"
 		},
 		"containerUri": {
 			"value": ""

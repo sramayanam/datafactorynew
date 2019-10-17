@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'enterprisecloudstorage'"
 		},
+		"scrmlservice_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'scrmlservice'"
+		},
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://scrdatadayslake.dfs.core.windows.net"
@@ -38,6 +42,22 @@
 		"onfilearrival_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/29223a3c-4017-4e62-9ba6-878f392b78e7/resourceGroups/scrdataaidays/providers/Microsoft.Storage/storageAccounts/scrdataaidays6208908056"
+		},
+		"scrmlservice_properties_typeProperties_subscriptionId": {
+			"type": "string",
+			"defaultValue": "29223a3c-4017-4e62-9ba6-878f392b78e7"
+		},
+		"scrmlservice_properties_typeProperties_resourceGroupName": {
+			"type": "string",
+			"defaultValue": "scrdatadaysengg"
+		},
+		"scrmlservice_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "f33fda13-9dfc-460b-bf3c-786441d8cf55"
+		},
+		"scrmlservice_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "32abda43-c361-4230-987c-93d97394d623"
 		},
 		"containerUri": {
 			"type": "string",
@@ -75,11 +95,26 @@
 					"enterprisecloudstorage_accountKey": {
 						"value": "[parameters('enterprisecloudstorage_accountKey')]"
 					},
+					"scrmlservice_servicePrincipalKey": {
+						"value": "[parameters('scrmlservice_servicePrincipalKey')]"
+					},
 					"OnpremPostGres_connectionString": {
 						"value": "[parameters('OnpremPostGres_connectionString')]"
 					},
 					"enterprisecloudstorage_properties_typeProperties_url": {
 						"value": "[parameters('enterprisecloudstorage_properties_typeProperties_url')]"
+					},
+					"scrmlservice_properties_typeProperties_subscriptionId": {
+						"value": "[parameters('scrmlservice_properties_typeProperties_subscriptionId')]"
+					},
+					"scrmlservice_properties_typeProperties_resourceGroupName": {
+						"value": "[parameters('scrmlservice_properties_typeProperties_resourceGroupName')]"
+					},
+					"scrmlservice_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('scrmlservice_properties_typeProperties_servicePrincipalId')]"
+					},
+					"scrmlservice_properties_typeProperties_tenant": {
+						"value": "[parameters('scrmlservice_properties_typeProperties_tenant')]"
 					},
 					"onfilearrival_properties_RunSparkJob_parameters_copyFolder": {
 						"value": "[parameters('onfilearrival_properties_RunSparkJob_parameters_copyFolder')]"
