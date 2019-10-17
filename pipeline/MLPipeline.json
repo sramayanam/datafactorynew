@@ -15,7 +15,11 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"mlPipelineId": "fbb4f92c-5d1e-4c68-a270-71fc95549ee6"
+					"mlPipelineId": "fbb4f92c-5d1e-4c68-a270-71fc95549ee6",
+					"experimentName": "batch_scoring",
+					"mlPipelineParameters": {
+						"param_batch_size": "20"
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "scrmlservice",
