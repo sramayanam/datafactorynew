@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'servicePrincipalKey' of 'scrmlservice'"
 		},
+		"iotcoll_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'iotcoll'"
+		},
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://scrdatadayslake.dfs.core.windows.net"
@@ -97,6 +101,9 @@
 					},
 					"scrmlservice_servicePrincipalKey": {
 						"value": "[parameters('scrmlservice_servicePrincipalKey')]"
+					},
+					"iotcoll_connectionString": {
+						"value": "[parameters('iotcoll_connectionString')]"
 					},
 					"OnpremPostGres_connectionString": {
 						"value": "[parameters('OnpremPostGres_connectionString')]"

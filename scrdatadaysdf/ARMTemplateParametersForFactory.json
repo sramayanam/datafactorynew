@@ -20,6 +20,9 @@
 		"scrmlservice_servicePrincipalKey": {
 			"value": ""
 		},
+		"iotcoll_connectionString": {
+			"value": ""
+		},
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"value": "https://scrdatadayslake.dfs.core.windows.net"
 		},
