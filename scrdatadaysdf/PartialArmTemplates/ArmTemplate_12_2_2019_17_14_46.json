@@ -1,0 +1,79 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "scrdatadaysdf"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/LoadFromCosmos')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "CosmosDbSqlApiCollection1",
+								"type": "DatasetReference"
+							},
+							"name": "iotdata"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "target",
+								"type": "DatasetReference"
+							},
+							"name": "LoadtoDatalake"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Projection"
+						}
+					],
+					"script": "\n\nsource(output(\n\t\t{_lsn} as integer,\n\t\t{_metadata} as ({} as string),\n\t\tcompkey as integer,\n\t\tcurrentTime as string,\n\t\tday as string,\n\t\thour as integer,\n\t\thumidity as double,\n\t\tlux as double,\n\t\tmonth as string,\n\t\tobjectTemperature as double,\n\t\tpressure as double,\n\t\tsensorTag as string,\n\t\ttemperatureFromHumidity as double,\n\t\ttemperatureFromIr as double,\n\t\tyear as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tformat: 'document',\n\tpartitionBy('key',\n\t\t0,\n\t\tcompkey\n\t)) ~> iotdata\niotdata select(mapColumn(\n\t\tsensorTag,\n\t\thumidity,\n\t\ttemperatureFromHumidity,\n\t\tobjectTemperature,\n\t\ttemperatureFromIr,\n\t\tpressure,\n\t\tlux,\n\t\tcurrentTime,\n\t\tyear,\n\t\tmonth,\n\t\tday,\n\t\thour,\n\t\tcompkey\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Projection\nProjection sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['output.csv'],\n\ttruncate: true,\n\tpartitionBy('hash', 1)) ~> LoadtoDatalake"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/target')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/target')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "enterprisecloudstorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "output",
+						"fileSystem": "cosmosoutput"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		}
+	]
+}
