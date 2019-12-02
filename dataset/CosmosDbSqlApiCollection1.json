@@ -1,0 +1,64 @@
+{
+	"name": "CosmosDbSqlApiCollection1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "iotcoll",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": {
+			"type": "object",
+			"properties": {
+				"sensorTag": {
+					"type": "string"
+				},
+				"humidity": {
+					"type": "number"
+				},
+				"temperatureFromHumidity": {
+					"type": "number"
+				},
+				"objectTemperature": {
+					"type": "number"
+				},
+				"temperatureFromIr": {
+					"type": "number"
+				},
+				"pressure": {
+					"type": "number"
+				},
+				"lux": {
+					"type": "number"
+				},
+				"currentTime": {
+					"type": "string"
+				},
+				"year": {
+					"type": "string"
+				},
+				"month": {
+					"type": "string"
+				},
+				"day": {
+					"type": "string"
+				},
+				"hour": {
+					"type": "integer"
+				},
+				"compkey": {
+					"type": "integer"
+				},
+				"_lsn": {
+					"type": "integer"
+				},
+				"_metadata": {
+					"type": "object"
+				}
+			}
+		},
+		"typeProperties": {
+			"collectionName": "sensordata"
+		}
+	}
+}
