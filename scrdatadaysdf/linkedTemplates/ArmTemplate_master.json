@@ -23,13 +23,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'enterprisecloudstorage'"
 		},
-		"scrmlservice_servicePrincipalKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'servicePrincipalKey' of 'scrmlservice'"
-		},
 		"iotcoll_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'iotcoll'"
+		},
+		"scrmlservice_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'scrmlservice'"
 		},
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"type": "string",
@@ -99,11 +99,11 @@
 					"enterprisecloudstorage_accountKey": {
 						"value": "[parameters('enterprisecloudstorage_accountKey')]"
 					},
-					"scrmlservice_servicePrincipalKey": {
-						"value": "[parameters('scrmlservice_servicePrincipalKey')]"
-					},
 					"iotcoll_connectionString": {
 						"value": "[parameters('iotcoll_connectionString')]"
+					},
+					"scrmlservice_servicePrincipalKey": {
+						"value": "[parameters('scrmlservice_servicePrincipalKey')]"
 					},
 					"OnpremPostGres_connectionString": {
 						"value": "[parameters('OnpremPostGres_connectionString')]"

@@ -23,13 +23,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'enterprisecloudstorage'"
 		},
-		"scrmlservice_servicePrincipalKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'servicePrincipalKey' of 'scrmlservice'"
-		},
 		"iotcoll_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'iotcoll'"
+		},
+		"scrmlservice_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'scrmlservice'"
 		},
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"type": "string",
@@ -469,7 +469,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/MLPipeline1')]",
+			"name": "[concat(parameters('factoryName'), '/ExecuteMLPipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -503,6 +503,44 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/scrmlservice')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MappingDataFlow_Cosmos')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoadFromCosmos",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "LoadFromCosmos",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"iotdata": {},
+									"LoadtoDatalake": {}
+								}
+							},
+							"staging": {}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/LoadFromCosmos')]"
 			]
 		},
 		{
@@ -597,6 +635,75 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/CosmosDbSqlApiCollection1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "iotcoll",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "CosmosDbSqlApiCollection",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"sensorTag": {
+							"type": "string"
+						},
+						"humidity": {
+							"type": "number"
+						},
+						"temperatureFromHumidity": {
+							"type": "number"
+						},
+						"objectTemperature": {
+							"type": "number"
+						},
+						"temperatureFromIr": {
+							"type": "number"
+						},
+						"pressure": {
+							"type": "number"
+						},
+						"lux": {
+							"type": "number"
+						},
+						"currentTime": {
+							"type": "string"
+						},
+						"year": {
+							"type": "string"
+						},
+						"month": {
+							"type": "string"
+						},
+						"day": {
+							"type": "string"
+						},
+						"hour": {
+							"type": "integer"
+						},
+						"compkey": {
+							"type": "integer"
+						},
+						"_lsn": {
+							"type": "integer"
+						},
+						"_metadata": {
+							"type": "object"
+						}
+					}
+				},
+				"typeProperties": {
+					"collectionName": "sensordata"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/iotcoll')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DestinationDataset_eqk')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -643,6 +750,34 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/OnpremPostGres')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/target')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "enterprisecloudstorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "output",
+						"fileSystem": "cosmosoutput"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/enterprisecloudstorage')]"
 			]
 		},
 		{
@@ -708,6 +843,19 @@
 						"type": "SecureString",
 						"value": "[parameters('enterprisecloudstorage_accountKey')]"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/iotcoll')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "CosmosDb",
+				"typeProperties": {
+					"connectionString": "[parameters('iotcoll_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -813,155 +961,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/CosmosDbSqlApiCollection1')]",
 				"[concat(variables('factoryId'), '/datasets/target')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/iotcoll')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "CosmosDb",
-				"typeProperties": {
-					"connectionString": "[parameters('iotcoll_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CosmosDbSqlApiCollection1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "iotcoll",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "CosmosDbSqlApiCollection",
-				"schema": {
-					"type": "object",
-					"properties": {
-						"sensorTag": {
-							"type": "string"
-						},
-						"humidity": {
-							"type": "number"
-						},
-						"temperatureFromHumidity": {
-							"type": "number"
-						},
-						"objectTemperature": {
-							"type": "number"
-						},
-						"temperatureFromIr": {
-							"type": "number"
-						},
-						"pressure": {
-							"type": "number"
-						},
-						"lux": {
-							"type": "number"
-						},
-						"currentTime": {
-							"type": "string"
-						},
-						"year": {
-							"type": "string"
-						},
-						"month": {
-							"type": "string"
-						},
-						"day": {
-							"type": "string"
-						},
-						"hour": {
-							"type": "integer"
-						},
-						"compkey": {
-							"type": "integer"
-						},
-						"_lsn": {
-							"type": "integer"
-						},
-						"_metadata": {
-							"type": "object",
-							"properties": {}
-						}
-					}
-				},
-				"typeProperties": {
-					"collectionName": "sensordata"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/iotcoll')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/target')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "enterprisecloudstorage",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"folderPath": "output",
-						"fileSystem": "cosmosoutput"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/enterprisecloudstorage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MappingDataFlow_Cosmos')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "LoadFromCosmos",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "LoadFromCosmos",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"iotdata": {},
-									"LoadtoDatalake": {}
-								}
-							},
-							"staging": {}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/LoadFromCosmos')]"
 			]
 		}
 	]

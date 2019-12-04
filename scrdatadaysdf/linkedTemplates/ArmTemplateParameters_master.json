@@ -17,10 +17,10 @@
 		"enterprisecloudstorage_accountKey": {
 			"value": ""
 		},
-		"scrmlservice_servicePrincipalKey": {
+		"iotcoll_connectionString": {
 			"value": ""
 		},
-		"iotcoll_connectionString": {
+		"scrmlservice_servicePrincipalKey": {
 			"value": ""
 		},
 		"enterprisecloudstorage_properties_typeProperties_url": {
