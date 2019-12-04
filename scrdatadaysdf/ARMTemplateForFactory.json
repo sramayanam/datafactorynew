@@ -257,13 +257,50 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ExecuteMLPipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ScoreImages",
+						"type": "AzureMLExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"mlPipelineId": "fbb4f92c-5d1e-4c68-a270-71fc95549ee6",
+							"experimentName": "batch_scoring_adf",
+							"mlPipelineParameters": {
+								"param_batch_size": "40"
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "scrmlservice",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/scrmlservice')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Extract_OnPremData')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy_postgres_to_datalake",
+						"name": "Coppy_postgres_to_datalake",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -466,43 +503,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceDataset_eqk')]",
 				"[concat(variables('factoryId'), '/datasets/DestinationDataset_eqk')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ExecuteMLPipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "ScoreImages",
-						"type": "AzureMLExecutePipeline",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"mlPipelineId": "fbb4f92c-5d1e-4c68-a270-71fc95549ee6",
-							"experimentName": "batch_scoring_adf",
-							"mlPipelineParameters": {
-								"param_batch_size": "40"
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "scrmlservice",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/scrmlservice')]"
 			]
 		},
 		{

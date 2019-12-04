@@ -720,7 +720,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy_postgres_to_datalake",
+						"name": "Coppy_postgres_to_datalake",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
