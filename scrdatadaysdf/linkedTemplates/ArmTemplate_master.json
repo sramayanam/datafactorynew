@@ -51,6 +51,18 @@
 			"type": "string",
 			"defaultValue": "32abda43-c361-4230-987c-93d97394d623"
 		},
+		"EventTriggerscr_properties_RunSparkJob_parameters_copyFolder": {
+			"type": "string",
+			"defaultValue": "@triggerBody().folderPath"
+		},
+		"EventTriggerscr_properties_RunSparkJob_parameters_copyFile": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"EventTriggerscr_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/29223a3c-4017-4e62-9ba6-878f392b78e7/resourceGroups/scrdataaidays/providers/Microsoft.Storage/storageAccounts/scrdataaidays6208908056"
+		},
 		"onfilearrival_properties_RunSparkJob_parameters_copyFolder": {
 			"type": "string",
 			"defaultValue": "@triggerBody().folderPath"
@@ -123,6 +135,15 @@
 					"scrmlservice_properties_typeProperties_tenant": {
 						"value": "[parameters('scrmlservice_properties_typeProperties_tenant')]"
 					},
+					"EventTriggerscr_properties_RunSparkJob_parameters_copyFolder": {
+						"value": "[parameters('EventTriggerscr_properties_RunSparkJob_parameters_copyFolder')]"
+					},
+					"EventTriggerscr_properties_RunSparkJob_parameters_copyFile": {
+						"value": "[parameters('EventTriggerscr_properties_RunSparkJob_parameters_copyFile')]"
+					},
+					"EventTriggerscr_properties_typeProperties_scope": {
+						"value": "[parameters('EventTriggerscr_properties_typeProperties_scope')]"
+					},
 					"onfilearrival_properties_RunSparkJob_parameters_copyFolder": {
 						"value": "[parameters('onfilearrival_properties_RunSparkJob_parameters_copyFolder')]"
 					},
@@ -135,6 +156,26 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_0')]"
+			]
 		}
 	]
 }

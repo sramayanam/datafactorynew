@@ -51,6 +51,18 @@
 			"type": "string",
 			"defaultValue": "32abda43-c361-4230-987c-93d97394d623"
 		},
+		"EventTriggerscr_properties_RunSparkJob_parameters_copyFolder": {
+			"type": "string",
+			"defaultValue": "@triggerBody().folderPath"
+		},
+		"EventTriggerscr_properties_RunSparkJob_parameters_copyFile": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"EventTriggerscr_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/29223a3c-4017-4e62-9ba6-878f392b78e7/resourceGroups/scrdataaidays/providers/Microsoft.Storage/storageAccounts/scrdataaidays6208908056"
+		},
 		"onfilearrival_properties_RunSparkJob_parameters_copyFolder": {
 			"type": "string",
 			"defaultValue": "@triggerBody().folderPath"
@@ -94,7 +106,7 @@
 						"type": "SecureString",
 						"value": "[parameters('SparkCompute_accessToken')]"
 					},
-					"existingClusterId": "1008-220050-hang812"
+					"existingClusterId": "0123-195646-tutor788"
 				}
 			},
 			"dependsOn": []
@@ -454,6 +466,40 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/EventTriggerscr')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "RunSparkJob",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"copyFolder": "[parameters('EventTriggerscr_properties_RunSparkJob_parameters_copyFolder')]",
+							"copyFile": "[parameters('EventTriggerscr_properties_RunSparkJob_parameters_copyFile')]"
+						}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/samples/blobs/",
+					"blobPathEndsWith": ".csv",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('EventTriggerscr_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/RunSparkJob')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/onfilearrival')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
@@ -517,7 +563,7 @@
 							"name": "Projection"
 						}
 					],
-					"script": "\n\nsource(output(\n\t\t{_lsn} as integer,\n\t\t{_metadata} as ({} as string),\n\t\tcompkey as integer,\n\t\tcurrentTime as string,\n\t\tday as string,\n\t\thour as integer,\n\t\thumidity as double,\n\t\tlux as double,\n\t\tmonth as string,\n\t\tobjectTemperature as double,\n\t\tpressure as double,\n\t\tsensorTag as string,\n\t\ttemperatureFromHumidity as double,\n\t\ttemperatureFromIr as double,\n\t\tyear as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tformat: 'document',\n\tpartitionBy('key',\n\t\t0,\n\t\tcompkey\n\t)) ~> iotdata\niotdata select(mapColumn(\n\t\tsensorTag,\n\t\thumidity,\n\t\ttemperatureFromHumidity,\n\t\tobjectTemperature,\n\t\ttemperatureFromIr,\n\t\tpressure,\n\t\tlux,\n\t\tcurrentTime,\n\t\tyear,\n\t\tmonth,\n\t\tday,\n\t\thour,\n\t\tcompkey\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Projection\nProjection sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['output.csv'],\n\ttruncate: true,\n\tpartitionBy('hash', 1)) ~> LoadtoDatalake"
+					"script": "source(output(\n\t\t{_lsn} as integer,\n\t\t{_metadata} as ({} as string),\n\t\tcompkey as integer,\n\t\tcurrentTime as string,\n\t\tday as string,\n\t\thour as integer,\n\t\thumidity as double,\n\t\tlux as double,\n\t\tmonth as string,\n\t\tobjectTemperature as double,\n\t\tpressure as double,\n\t\tsensorTag as string,\n\t\ttemperatureFromHumidity as double,\n\t\ttemperatureFromIr as double,\n\t\tyear as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tformat: 'document',\n\tpartitionBy('key',\n\t\t0,\n\t\tcompkey\n\t)) ~> iotdata\niotdata select(mapColumn(\n\t\tsensorTag,\n\t\thumidity,\n\t\ttemperatureFromHumidity,\n\t\tobjectTemperature,\n\t\ttemperatureFromIr,\n\t\tpressure,\n\t\tlux,\n\t\tcurrentTime,\n\t\tyear,\n\t\tmonth,\n\t\tday,\n\t\thour,\n\t\tcompkey\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Projection\nProjection sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['output.csv'],\n\ttruncate: true,\n\tpartitionBy('hash', 1)) ~> LoadtoDatalake"
 				}
 			},
 			"dependsOn": [
@@ -923,44 +969,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceDataset_eqk')]",
 				"[concat(variables('factoryId'), '/datasets/DestinationDataset_eqk')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MappingDataFlow_Cosmos')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "LoadFromCosmos",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "LoadFromCosmos",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"iotdata": {},
-									"LoadtoDatalake": {}
-								}
-							},
-							"staging": {}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/LoadFromCosmos')]"
 			]
 		}
 	]
