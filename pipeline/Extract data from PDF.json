@@ -1,0 +1,99 @@
+{
+	"name": "Extract data from PDF",
+	"properties": {
+		"description": "Use this template to extract data from a PDF source.",
+		"activities": [
+			{
+				"name": "Form Recognizer - POST",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"headers": {
+						"Ocp-Apim-Subscription-Key": {
+							"value": "@pipeline().parameters.FormRecognizerKey",
+							"type": "Expression"
+						}
+					},
+					"url": {
+						"value": "@pipeline().parameters.FormRecognizerURL",
+						"type": "Expression"
+					},
+					"body": {
+						"value": "@concat('{\"source\":\"',pipeline().parameters.PDF_SourceURL,'\"}')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "GetPDFData_Dataflow",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Form Recognizer - POST",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "formRecognizer",
+						"type": "DataFlowReference",
+						"parameters": {
+							"OutputFolder": {
+								"value": "'@{pipeline().parameters.outputFolder}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "None",
+					"cacheSinks": {
+						"firstRowOnly": true
+					}
+				}
+			}
+		],
+		"parameters": {
+			"FormRecognizerURL": {
+				"type": "string",
+				"defaultValue": "https://aaaorg-formrecognizer.cognitiveservices.azure.com/formrecognizer/v2.1/layout/analyze"
+			},
+			"FormRecognizerKey": {
+				"type": "string",
+				"defaultValue": "4ededd3304a64cc7998068da81ce138e"
+			},
+			"PDF_SourceURL": {
+				"type": "string",
+				"defaultValue": "https://sedl.org/afterschool/toolkits/science/pdf/ast_sci_data_tables_sample.pdf"
+			},
+			"outputFolder": {
+				"type": "string",
+				"defaultValue": "myOutput"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-02-08T18:22:47Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

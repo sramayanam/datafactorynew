@@ -1,0 +1,9 @@
+{
+	"name": "aaaorgdf",
+	"location": "westus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "0d130318-18bc-440c-b41e-4afda42b536f",
+		"tenantId": "76d48e0e-6a4e-4a80-b88f-19d7face4a90"
+	}
+}
