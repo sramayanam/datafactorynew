@@ -9,7 +9,7 @@
 		"type": "LakehouseTable",
 		"schema": [],
 		"typeProperties": {
-			"table": "@item()"
+			"table": ""
 		}
 	}
 }
