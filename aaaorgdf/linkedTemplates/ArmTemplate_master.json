@@ -35,6 +35,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'enterprisecloudstorage'"
 		},
+		"fabriclh_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'fabriclh'"
+		},
 		"iotcoll_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'iotcoll'"
@@ -66,6 +70,10 @@
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://scrdatadayslake.dfs.core.windows.net"
+		},
+		"fabriclh_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://aaaorgmlstorage.dfs.core.windows.net/"
 		},
 		"scrmlservice_properties_typeProperties_subscriptionId": {
 			"type": "string",
@@ -153,6 +161,9 @@
 					"enterprisecloudstorage_accountKey": {
 						"value": "[parameters('enterprisecloudstorage_accountKey')]"
 					},
+					"fabriclh_accountKey": {
+						"value": "[parameters('fabriclh_accountKey')]"
+					},
 					"iotcoll_connectionString": {
 						"value": "[parameters('iotcoll_connectionString')]"
 					},
@@ -176,6 +187,9 @@
 					},
 					"enterprisecloudstorage_properties_typeProperties_url": {
 						"value": "[parameters('enterprisecloudstorage_properties_typeProperties_url')]"
+					},
+					"fabriclh_properties_typeProperties_url": {
+						"value": "[parameters('fabriclh_properties_typeProperties_url')]"
 					},
 					"scrmlservice_properties_typeProperties_subscriptionId": {
 						"value": "[parameters('scrmlservice_properties_typeProperties_subscriptionId')]"

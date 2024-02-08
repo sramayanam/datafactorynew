@@ -26,6 +26,9 @@
 		"enterprisecloudstorage_accountKey": {
 			"value": ""
 		},
+		"fabriclh_accountKey": {
+			"value": ""
+		},
 		"iotcoll_connectionString": {
 			"value": ""
 		},
@@ -49,6 +52,9 @@
 		},
 		"enterprisecloudstorage_properties_typeProperties_url": {
 			"value": "https://scrdatadayslake.dfs.core.windows.net"
+		},
+		"fabriclh_properties_typeProperties_url": {
+			"value": "https://aaaorgmlstorage.dfs.core.windows.net/"
 		},
 		"scrmlservice_properties_typeProperties_subscriptionId": {
 			"value": "29223a3c-4017-4e62-9ba6-878f392b78e7"
