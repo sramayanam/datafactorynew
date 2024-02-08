@@ -1,0 +1,15 @@
+{
+	"name": "LakehouseTableParam",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Lakehouse1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "LakehouseTable",
+		"schema": [],
+		"typeProperties": {
+			"table": "@item()"
+		}
+	}
+}
