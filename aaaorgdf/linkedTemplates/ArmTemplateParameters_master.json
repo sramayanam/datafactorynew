@@ -1,0 +1,93 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "aaaorgdf"
+		},
+		"AdventureWorks_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"AzureSQLControlDB_connectionString": {
+			"value": ""
+		},
+		"Lakehouse1_servicePrincipalCredential": {
+			"value": ""
+		},
+		"OnpremPostGres_connectionString": {
+			"value": ""
+		},
+		"SparkCompute_accessToken": {
+			"value": ""
+		},
+		"enterprisecloudstorage_accountKey": {
+			"value": ""
+		},
+		"iotcoll_connectionString": {
+			"value": ""
+		},
+		"scrmlservice_servicePrincipalKey": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://aaaorgmlstorage.dfs.core.windows.net/"
+		},
+		"Lakehouse1_properties_typeProperties_tenant": {
+			"value": "76d48e0e-6a4e-4a80-b88f-19d7face4a90"
+		},
+		"Lakehouse1_properties_typeProperties_servicePrincipalId": {
+			"value": "b2e3fcec-29eb-4353-a30f-23680f3027e6"
+		},
+		"RestService1_properties_typeProperties_url": {
+			"value": "https://aaaorg-formrecognizer.cognitiveservices.azure.com/formrecognizer/v2.1/layout"
+		},
+		"SparkCompute_properties_typeProperties_existingClusterId": {
+			"value": "0123-195646-tutor788"
+		},
+		"enterprisecloudstorage_properties_typeProperties_url": {
+			"value": "https://scrdatadayslake.dfs.core.windows.net"
+		},
+		"scrmlservice_properties_typeProperties_subscriptionId": {
+			"value": "29223a3c-4017-4e62-9ba6-878f392b78e7"
+		},
+		"scrmlservice_properties_typeProperties_resourceGroupName": {
+			"value": "scrdatadaysengg"
+		},
+		"scrmlservice_properties_typeProperties_mlWorkspaceName": {
+			"value": "scrmlprod"
+		},
+		"scrmlservice_properties_typeProperties_servicePrincipalId": {
+			"value": "f33fda13-9dfc-460b-bf3c-786441d8cf55"
+		},
+		"scrmlservice_properties_typeProperties_tenant": {
+			"value": "32abda43-c361-4230-987c-93d97394d623"
+		},
+		"EventTriggerscr_properties_RunSparkJob_parameters_copyFolder": {
+			"value": "@triggerBody().folderPath"
+		},
+		"EventTriggerscr_properties_RunSparkJob_parameters_copyFile": {
+			"value": "@triggerBody().fileName"
+		},
+		"EventTriggerscr_properties_typeProperties_scope": {
+			"value": "/subscriptions/29223a3c-4017-4e62-9ba6-878f392b78e7/resourceGroups/scrdataaidays/providers/Microsoft.Storage/storageAccounts/scrdataaidays6208908056"
+		},
+		"onfilearrival_properties_RunSparkJob_parameters_copyFolder": {
+			"value": "@triggerBody().folderPath"
+		},
+		"onfilearrival_properties_RunSparkJob_parameters_copyFile": {
+			"value": "@triggerBody().fileName"
+		},
+		"onfilearrival_properties_typeProperties_scope": {
+			"value": "/subscriptions/29223a3c-4017-4e62-9ba6-878f392b78e7/resourceGroups/scrdataaidays/providers/Microsoft.Storage/storageAccounts/scrdataaidays6208908056"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

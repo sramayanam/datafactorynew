@@ -1,0 +1,1935 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "aaaorgdf"
+		},
+		"AdventureWorks_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AdventureWorks'"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
+		"AzureSQLControlDB_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSQLControlDB'"
+		},
+		"Lakehouse1_servicePrincipalCredential": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalCredential' of 'Lakehouse1'"
+		},
+		"OnpremPostGres_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'OnpremPostGres'"
+		},
+		"SparkCompute_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'SparkCompute'"
+		},
+		"enterprisecloudstorage_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'enterprisecloudstorage'"
+		},
+		"iotcoll_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'iotcoll'"
+		},
+		"scrmlservice_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'scrmlservice'"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://aaaorgmlstorage.dfs.core.windows.net/"
+		},
+		"Lakehouse1_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "76d48e0e-6a4e-4a80-b88f-19d7face4a90"
+		},
+		"Lakehouse1_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "b2e3fcec-29eb-4353-a30f-23680f3027e6"
+		},
+		"RestService1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://aaaorg-formrecognizer.cognitiveservices.azure.com/formrecognizer/v2.1/layout"
+		},
+		"SparkCompute_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0123-195646-tutor788"
+		},
+		"enterprisecloudstorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://scrdatadayslake.dfs.core.windows.net"
+		},
+		"scrmlservice_properties_typeProperties_subscriptionId": {
+			"type": "string",
+			"defaultValue": "29223a3c-4017-4e62-9ba6-878f392b78e7"
+		},
+		"scrmlservice_properties_typeProperties_resourceGroupName": {
+			"type": "string",
+			"defaultValue": "scrdatadaysengg"
+		},
+		"scrmlservice_properties_typeProperties_mlWorkspaceName": {
+			"type": "string",
+			"defaultValue": "scrmlprod"
+		},
+		"scrmlservice_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "f33fda13-9dfc-460b-bf3c-786441d8cf55"
+		},
+		"scrmlservice_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "32abda43-c361-4230-987c-93d97394d623"
+		},
+		"EventTriggerscr_properties_RunSparkJob_parameters_copyFolder": {
+			"type": "string",
+			"defaultValue": "@triggerBody().folderPath"
+		},
+		"EventTriggerscr_properties_RunSparkJob_parameters_copyFile": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"EventTriggerscr_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/29223a3c-4017-4e62-9ba6-878f392b78e7/resourceGroups/scrdataaidays/providers/Microsoft.Storage/storageAccounts/scrdataaidays6208908056"
+		},
+		"onfilearrival_properties_RunSparkJob_parameters_copyFolder": {
+			"type": "string",
+			"defaultValue": "@triggerBody().folderPath"
+		},
+		"onfilearrival_properties_RunSparkJob_parameters_copyFile": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"onfilearrival_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/29223a3c-4017-4e62-9ba6-878f392b78e7/resourceGroups/scrdataaidays/providers/Microsoft.Storage/storageAccounts/scrdataaidays6208908056"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Copy data from on premise SQL Server to fabric')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Copy data from on premise SQL Server to SQL Azure.\n\nYou can also go to \"Copy Data Tool\" to get the pipeline for more connectors and scenarios.",
+				"activities": [
+					{
+						"name": "SQL_to_fabric",
+						"description": "Copy data from SQL server to SQL Azure",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"isolationLevel": "ReadCommitted",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "LakehouseTableSink",
+								"tableActionOption": "Append"
+							},
+							"enableStaging": false,
+							"dataIntegrationUnits": 0,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SqlServerTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LakehouseTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable1')]",
+				"[concat(variables('factoryId'), '/datasets/LakehouseTable1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DeltaCopyfromPostGres')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Copy new or updated rows only from database using external control table",
+				"activities": [
+					{
+						"name": "LookupLastWaterMark",
+						"description": "Retrieve  the last high-watermark value stored in external control table",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlSource",
+								"sqlReaderQuery": {
+									"value": "select @{pipeline().parameters.Control_Table_Column_Name} as WatermarkValue from @{pipeline().parameters.Control_Table_Table_Name}",
+									"type": "Expression"
+								},
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "AzureSqlDatabaseExternal_ControlTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "DeltaCopyfromDB",
+						"description": "Copy activity to use query to filter the delta data by > last high-watermark and <= current high-watermark from source database, and then only copy the changes to the destination store.",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastWaterMark",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentWaterMark",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "PostgreSqlSource",
+								"query": {
+									"value": "select * from @{pipeline().parameters.Data_Source_Table_Name} where @{pipeline().parameters.Data_Source_WaterMarkColumn} > '@{activity('LookupLastWaterMark').output.firstRow.WatermarkValue}' and @{pipeline().parameters.Data_Source_WaterMarkColumn} <= '@{activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue}'",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"dataIntegrationUnits": 0
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_eqk",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_eqk",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "UpdateWaterMark",
+						"description": "Stored procedure activity to store the new high-watermark value into external control table for delta data loading. ",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "DeltaCopyfromDB",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[update_watermark]",
+							"storedProcedureParameters": {
+								"LastModifiedtime": {
+									"value": {
+										"value": "@activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue",
+										"type": "Expression"
+									},
+									"type": "datetime"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureSQLControlDB",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "LookupCurrentWaterMark",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "PostgreSqlSource",
+								"query": {
+									"value": "select max(@{pipeline().parameters.Data_Source_WaterMarkColumn}) as NewWatermarkValue from @{pipeline().parameters.Data_Source_Table_Name}",
+									"type": "Expression"
+								}
+							},
+							"dataset": {
+								"referenceName": "SourceDataset_eqk",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"Data_Source_Table_Name": {
+						"type": "String",
+						"defaultValue": "orders"
+					},
+					"Data_Source_WaterMarkColumn": {
+						"type": "String",
+						"defaultValue": "order_date"
+					},
+					"Data_Destination_Folder_Path": {
+						"type": "String",
+						"defaultValue": "/rawdata/orders/"
+					},
+					"Control_Table_Table_Name": {
+						"type": "String",
+						"defaultValue": "watermarktable"
+					},
+					"Control_Table_Column_Name": {
+						"type": "String",
+						"defaultValue": "WatermarkValue"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzureSqlDatabaseExternal_ControlTable1')]",
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_eqk')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_eqk')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureSQLControlDB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ExecuteMLPipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ScoreImages",
+						"type": "AzureMLExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"experimentName": "batch_scoring_adf",
+							"mlPipelineParameters": {
+								"param_batch_size": "40"
+							},
+							"mlExecutionType": "pipeline",
+							"mlPipelineId": "fbb4f92c-5d1e-4c68-a270-71fc95549ee6"
+						},
+						"linkedServiceName": {
+							"referenceName": "scrmlservice",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/scrmlservice')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Extract data from PDF')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Use this template to extract data from a PDF source.",
+				"activities": [
+					{
+						"name": "Form Recognizer - POST",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "POST",
+							"headers": {
+								"Ocp-Apim-Subscription-Key": {
+									"value": "@pipeline().parameters.FormRecognizerKey",
+									"type": "Expression"
+								}
+							},
+							"url": {
+								"value": "@pipeline().parameters.FormRecognizerURL",
+								"type": "Expression"
+							},
+							"body": {
+								"value": "@concat('{\"source\":\"',pipeline().parameters.PDF_SourceURL,'\"}')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "GetPDFData_Dataflow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Form Recognizer - POST",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "formRecognizer",
+								"type": "DataFlowReference",
+								"parameters": {
+									"OutputFolder": {
+										"value": "'@{pipeline().parameters.outputFolder}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "None",
+							"cacheSinks": {
+								"firstRowOnly": true
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"FormRecognizerURL": {
+						"type": "string",
+						"defaultValue": "https://aaaorg-formrecognizer.cognitiveservices.azure.com/formrecognizer/v2.1/layout/analyze"
+					},
+					"FormRecognizerKey": {
+						"type": "string",
+						"defaultValue": "4ededd3304a64cc7998068da81ce138e"
+					},
+					"PDF_SourceURL": {
+						"type": "string",
+						"defaultValue": "https://sedl.org/afterschool/toolkits/science/pdf/ast_sci_data_tables_sample.pdf"
+					},
+					"outputFolder": {
+						"type": "string",
+						"defaultValue": "myOutput"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-02-08T18:22:47Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/formRecognizer')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Extract data from PDF_copy1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Use this template to extract data from a PDF source.",
+				"activities": [
+					{
+						"name": "Form Recognizer - POST",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "POST",
+							"headers": {
+								"Ocp-Apim-Subscription-Key": {
+									"value": "@pipeline().parameters.FormRecognizerKey",
+									"type": "Expression"
+								}
+							},
+							"url": {
+								"value": "@pipeline().parameters.FormRecognizerURL",
+								"type": "Expression"
+							},
+							"body": {
+								"value": "@concat('{\"source\":\"',pipeline().parameters.PDF_SourceURL,'\"}')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "GetPDFData_Dataflow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Form Recognizer - POST",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "formRecognizer_copy1",
+								"type": "DataFlowReference",
+								"parameters": {
+									"OutputFolder": {
+										"value": "'@{pipeline().parameters.outputFolder}'",
+										"type": "Expression"
+									},
+									"url": {
+										"value": "'@{activity('Form Recognizer - POST')['output']['ADFWebActivityResponseHeaders']['Operation-Location']}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "None",
+							"cacheSinks": {
+								"firstRowOnly": true
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"FormRecognizerURL": {
+						"type": "string",
+						"defaultValue": "https://aaaorg-formrecognizer.cognitiveservices.azure.com/formrecognizer/v2.1/layout/analyze"
+					},
+					"FormRecognizerKey": {
+						"type": "string",
+						"defaultValue": "4ededd3304a64cc7998068da81ce138e"
+					},
+					"PDF_SourceURL": {
+						"type": "string",
+						"defaultValue": "https://sedl.org/afterschool/toolkits/science/pdf/ast_sci_data_tables_sample.pdf"
+					},
+					"outputFolder": {
+						"type": "string",
+						"defaultValue": "adfoutput"
+					},
+					"url": {
+						"type": "string",
+						"defaultValue": "https://aaaorg-formrecognizer.cognitiveservices.azure.com/formrecognizer/v2.1/layout/analyzeResults/e5535bf9-4776-457b-92e5-545420b263ba"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-02-08T19:37:16Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/formRecognizer_copy1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Extract_OnPremData')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Coppy_postgres_to_datalake",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "public.orders"
+							},
+							{
+								"name": "Destination",
+								"value": "rawdata//"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "PostgreSqlSource"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "order_id",
+											"type": "Int16"
+										},
+										"sink": {
+											"name": "order_id",
+											"type": "Int16"
+										}
+									},
+									{
+										"source": {
+											"name": "customer_id",
+											"type": "String"
+										},
+										"sink": {
+											"name": "customer_id",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "employee_id",
+											"type": "Int16"
+										},
+										"sink": {
+											"name": "employee_id",
+											"type": "Int16"
+										}
+									},
+									{
+										"source": {
+											"name": "order_date",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "order_date",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "required_date",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "required_date",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "shipped_date",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "shipped_date",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "ship_via",
+											"type": "Int16"
+										},
+										"sink": {
+											"name": "ship_via",
+											"type": "Int16"
+										}
+									},
+									{
+										"source": {
+											"name": "freight",
+											"type": "Single"
+										},
+										"sink": {
+											"name": "freight",
+											"type": "Single"
+										}
+									},
+									{
+										"source": {
+											"name": "ship_name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ship_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ship_address",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ship_address",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ship_city",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ship_city",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ship_region",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ship_region",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ship_postal_code",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ship_postal_code",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ship_country",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ship_country",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_eqk",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_eqk",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_eqk')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_eqk')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MappingDataFlow_Cosmos')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoadFromCosmos",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "LoadFromCosmos",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"iotdata": {},
+									"LoadtoDatalake": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/LoadFromCosmos')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RunSparkJob')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoadSensorData",
+						"type": "DatabricksNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/srram@dataaidays.net/createsparktableforreporting",
+							"baseParameters": {
+								"filename": {
+									"value": "@pipeline().parameters.copyFile",
+									"type": "Expression"
+								},
+								"filepath": {
+									"value": "@pipeline().parameters.copyFolder",
+									"type": "Expression"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SparkCompute",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"copyFolder": {
+						"type": "string"
+					},
+					"copyFile": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SparkCompute')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseExternal_ControlTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "External control table to store high water mark value.",
+				"linkedServiceName": {
+					"referenceName": "AzureSQLControlDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"typeProperties": {
+					"tableName": "watermarktable"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSQLControlDB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseExternal_ControlTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "External control table to store high water mark value.",
+				"linkedServiceName": {
+					"referenceName": "AzureSQLControlDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"typeProperties": {
+					"tableName": "watermarktable"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSQLControlDB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CosmosDbSqlApiCollection1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "iotcoll",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "CosmosDbSqlApiCollection",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"sensorTag": {
+							"type": "string"
+						},
+						"humidity": {
+							"type": "number"
+						},
+						"temperatureFromHumidity": {
+							"type": "number"
+						},
+						"objectTemperature": {
+							"type": "number"
+						},
+						"temperatureFromIr": {
+							"type": "number"
+						},
+						"pressure": {
+							"type": "number"
+						},
+						"lux": {
+							"type": "number"
+						},
+						"currentTime": {
+							"type": "string"
+						},
+						"year": {
+							"type": "string"
+						},
+						"month": {
+							"type": "string"
+						},
+						"day": {
+							"type": "string"
+						},
+						"hour": {
+							"type": "integer"
+						},
+						"compkey": {
+							"type": "integer"
+						},
+						"_lsn": {
+							"type": "integer"
+						},
+						"_metadata": {
+							"type": "object"
+						}
+					}
+				},
+				"typeProperties": {
+					"collectionName": "sensordata"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/iotcoll')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DataDestination')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Connect to your data destination store.",
+				"linkedServiceName": {
+					"referenceName": "AzureSQLControlDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSQLControlDB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DataSource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Connect to your data source store.",
+				"linkedServiceName": {
+					"referenceName": "AdventureWorks",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorks')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_eqk')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "enterprisecloudstorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "orders",
+						"fileSystem": "rawdata"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/enterprisecloudstorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LakehouseTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Lakehouse1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "LakehouseTable",
+				"schema": [],
+				"typeProperties": {
+					"table": "FactSales"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Lakehouse1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestResource1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "RestService1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/RestService1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_eqk')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "OnpremPostGres",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "PostgreSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "public",
+					"table": "orders"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/OnpremPostGres')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorks",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "ProductKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "OrderDateKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DueDateKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ShipDateKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CustomerKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PromotionKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CurrencyKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SalesTerritoryKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SalesOrderLineNumber",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "OrderQuantity",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "UnitPrice",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "ExtendedAmount",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "UnitPriceDiscountPct",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "DiscountAmount",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "ProductStandardCost",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TotalProductCost",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "SalesAmount",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TaxAmt",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Freight",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "CarrierTrackingNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CustomerPONumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OrderDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "DueDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ShipDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "FactInternetSales"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorks')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/target')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "enterprisecloudstorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "output",
+						"fileSystem": "cosmosoutput"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/enterprisecloudstorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AdventureWorks')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('AdventureWorks_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "integrationRuntime1",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntime1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSQLControlDB')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSQLControlDB_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Lakehouse1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Lakehouse",
+				"typeProperties": {
+					"workspaceId": "3601d8a8-8573-4859-9c80-2c57caa7ecef",
+					"artifactId": "0ddf6c50-c840-4446-b4a4-a6f642f80289",
+					"tenant": "[parameters('Lakehouse1_properties_typeProperties_tenant')]",
+					"servicePrincipalId": "[parameters('Lakehouse1_properties_typeProperties_servicePrincipalId')]",
+					"servicePrincipalCredentialType": "ServicePrincipalKey",
+					"servicePrincipalCredential": {
+						"type": "SecureString",
+						"value": "[parameters('Lakehouse1_servicePrincipalCredential')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OnpremPostGres')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "PostgreSql",
+				"typeProperties": {
+					"connectionString": "[parameters('OnpremPostGres_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "shintegrationruntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/shintegrationruntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestService1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('RestService1_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous",
+					"authHeaders": {
+						"Ocp-Apim-Subscription-Key": {
+							"type": "SecureString",
+							"value": "**********"
+						}
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SparkCompute')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://eastus.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('SparkCompute_accessToken')]"
+					},
+					"existingClusterId": "[parameters('SparkCompute_properties_typeProperties_existingClusterId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/enterprisecloudstorage')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('enterprisecloudstorage_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('enterprisecloudstorage_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/iotcoll')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "CosmosDb",
+				"typeProperties": {
+					"connectionString": "[parameters('iotcoll_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/scrmlservice')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureMLService",
+				"typeProperties": {
+					"subscriptionId": "[parameters('scrmlservice_properties_typeProperties_subscriptionId')]",
+					"resourceGroupName": "[parameters('scrmlservice_properties_typeProperties_resourceGroupName')]",
+					"mlWorkspaceName": "[parameters('scrmlservice_properties_typeProperties_mlWorkspaceName')]",
+					"servicePrincipalId": "[parameters('scrmlservice_properties_typeProperties_servicePrincipalId')]",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "[parameters('scrmlservice_servicePrincipalKey')]"
+					},
+					"tenant": "[parameters('scrmlservice_properties_typeProperties_tenant')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EventTriggerscr')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "RunSparkJob",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"copyFolder": "[parameters('EventTriggerscr_properties_RunSparkJob_parameters_copyFolder')]",
+							"copyFile": "[parameters('EventTriggerscr_properties_RunSparkJob_parameters_copyFile')]"
+						}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/samples/blobs/",
+					"blobPathEndsWith": ".csv",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('EventTriggerscr_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/RunSparkJob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/onfilearrival')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "RunSparkJob",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"copyFolder": "[parameters('onfilearrival_properties_RunSparkJob_parameters_copyFolder')]",
+							"copyFile": "[parameters('onfilearrival_properties_RunSparkJob_parameters_copyFile')]"
+						}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/samples/blobs/",
+					"blobPathEndsWith": ".csv",
+					"scope": "[parameters('onfilearrival_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/RunSparkJob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/integrationRuntime1')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/shintegrationruntime')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LoadFromCosmos')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "CosmosDbSqlApiCollection1",
+								"type": "DatasetReference"
+							},
+							"name": "iotdata"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "target",
+								"type": "DatasetReference"
+							},
+							"name": "LoadtoDatalake"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Projection"
+						}
+					],
+					"script": "source(output(\n\t\t{_lsn} as integer,\n\t\t{_metadata} as ({} as string),\n\t\tcompkey as integer,\n\t\tcurrentTime as string,\n\t\tday as string,\n\t\thour as integer,\n\t\thumidity as double,\n\t\tlux as double,\n\t\tmonth as string,\n\t\tobjectTemperature as double,\n\t\tpressure as double,\n\t\tsensorTag as string,\n\t\ttemperatureFromHumidity as double,\n\t\ttemperatureFromIr as double,\n\t\tyear as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tformat: 'document',\n\tpartitionBy('key',\n\t\t0,\n\t\tcompkey\n\t)) ~> iotdata\niotdata select(mapColumn(\n\t\tsensorTag,\n\t\thumidity,\n\t\ttemperatureFromHumidity,\n\t\tobjectTemperature,\n\t\ttemperatureFromIr,\n\t\tpressure,\n\t\tlux,\n\t\tcurrentTime,\n\t\tyear,\n\t\tmonth,\n\t\tday,\n\t\thour,\n\t\tcompkey\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Projection\nProjection sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['output.csv'],\n\ttruncate: true,\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tpartitionBy('hash', 1)) ~> LoadtoDatalake"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/CosmosDbSqlApiCollection1')]",
+				"[concat(variables('factoryId'), '/datasets/target')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/formRecognizer')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This dataflow takes the output from Form Recognizer and extracts the table information to a storage sink.\nThis specifically works with the Form Recognizer Layout API. You can also save the transformations as a flowlet if you would like to reuse the logic in other dataflows. ",
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"linkedService": {
+								"referenceName": "RestService1",
+								"type": "LinkedServiceReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"linkedService": {
+								"referenceName": "AzureDataLakeStorage1",
+								"type": "LinkedServiceReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "flatten1"
+						},
+						{
+							"name": "aggregate1"
+						},
+						{
+							"name": "flatten2"
+						},
+						{
+							"name": "filter1"
+						},
+						{
+							"name": "aggregate2"
+						},
+						{
+							"name": "rank1"
+						}
+					],
+					"scriptLines": [
+						"parameters{",
+						"     OutputFolder as string",
+						"}",
+						"source(output(",
+						"          body as (analyzeResult as (pageResults as (page as short, tables as (boundingBox as double[], cells as (boundingBox as double[], columnIndex as short, elements as string[], isHeader as boolean, rowIndex as short, text as string)[], columns as short, rows as short)[])[], readResults as (angle as boolean, height as short, lines as (appearance as (style as (confidence as double, name as string)), boundingBox as double[], text as string, words as (boundingBox as double[], confidence as double, text as string)[])[], page as short, unit as string, width as double)[], version as string), createdDateTime as timestamp, lastUpdatedDateTime as timestamp, status as string),",
+						"          headers as [string,string]",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     inferDriftedColumnTypes: true,",
+						"     format: 'rest',",
+						"     timeout: 30,",
+						"     requestInterval: 0,",
+						"     httpMethod: 'GET',",
+						"     paginationRules: ['supportRFC5988' -> 'true'],",
+						"     responseFormat: ['type' -> 'json', 'documentForm' -> 'documentPerLine']) ~> source1",
+						"source1 foldDown(unroll(body.analyzeResult.pageResults.tables),",
+						"     mapColumn(",
+						"          page = body.analyzeResult.pageResults.page,",
+						"          cells = body.analyzeResult.pageResults.tables.cells,",
+						"          columns = body.analyzeResult.pageResults.tables.columns,",
+						"          rows = body.analyzeResult.pageResults.tables.rows",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> flatten1",
+						"flatten2 aggregate(groupBy(TableNum,",
+						"          rowIndex),",
+						"     text = replace(trim(trim(toString(collect(text)), '['),']'),'\"','')) ~> aggregate1",
+						"rank1 foldDown(unroll(cells),",
+						"     mapColumn(",
+						"          page,",
+						"          TableNum,",
+						"          columnIndex = cells.columnIndex,",
+						"          isHeader = cells.isHeader,",
+						"          rowIndex = cells.rowIndex,",
+						"          text = cells.text",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> flatten2",
+						"flatten1 filter(not(isNull(cells))) ~> filter1",
+						"aggregate1 aggregate(groupBy(tableNum = 'TableNumber'+toString(TableNum)),",
+						"     text = replace(reduce(collect(text), '', #acc+#item+'\\n',#result),'\"','')) ~> aggregate2",
+						"filter1 rank(asc(page, true),",
+						"     asc(cells, true),",
+						"     output(TableNum as long)) ~> rank1",
+						"aggregate2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          {_col0_} as string",
+						"     ),",
+						"     format: 'delimited',",
+						"     fileSystem: ($OutputFolder),",
+						"     columnDelimiter: ',',",
+						"     escapeChar: '\\\\',",
+						"     quoteChar: '\\\"',",
+						"     columnNamesAsHeader: false,",
+						"     rowUrlColumn:'tableNum',",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     quoteAll: true,",
+						"     saveOrder: 1,",
+						"     mapColumn(",
+						"          {_col0_} = text",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/RestService1')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/formRecognizer_copy1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This dataflow takes the output from Form Recognizer and extracts the table information to a storage sink.\nThis specifically works with the Form Recognizer Layout API. You can also save the transformations as a flowlet if you would like to reuse the logic in other dataflows. ",
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"linkedService": {
+								"referenceName": "RestService1",
+								"type": "LinkedServiceReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"linkedService": {
+								"referenceName": "AzureDataLakeStorage1",
+								"type": "LinkedServiceReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "flatten1"
+						},
+						{
+							"name": "aggregate1"
+						},
+						{
+							"name": "flatten2"
+						},
+						{
+							"name": "filter1"
+						},
+						{
+							"name": "aggregate2"
+						},
+						{
+							"name": "rank1"
+						}
+					],
+					"scriptLines": [
+						"parameters{",
+						"     OutputFolder as string,",
+						"     url as string",
+						"}",
+						"source(output(",
+						"          body as (analyzeResult as (pageResults as (page as short, tables as (boundingBox as double[], cells as (boundingBox as double[], columnIndex as short, elements as string[], isHeader as boolean, rowIndex as short, text as string)[], columns as short, rows as short)[])[], readResults as (angle as boolean, height as short, lines as (appearance as (style as (confidence as double, name as string)), boundingBox as double[], text as string, words as (boundingBox as double[], confidence as double, text as string)[])[], page as short, unit as string, width as double)[], version as string), createdDateTime as timestamp, lastUpdatedDateTime as timestamp, status as string),",
+						"          headers as [string,string]",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     inferDriftedColumnTypes: true,",
+						"     format: 'rest',",
+						"     timeout: 30,",
+						"     requestInterval: 0,",
+						"     entity: (substring($url,instr($url,\"analyzeResults\"),(length($url)-instr($url,\"analyzeResults\"))+1)),",
+						"     httpMethod: 'GET',",
+						"     paginationRules: ['supportRFC5988' -> 'true'],",
+						"     responseFormat: ['type' -> 'json', 'documentForm' -> 'documentPerLine']) ~> source1",
+						"source1 foldDown(unroll(body.analyzeResult.pageResults.tables),",
+						"     mapColumn(",
+						"          page = body.analyzeResult.pageResults.page,",
+						"          cells = body.analyzeResult.pageResults.tables.cells,",
+						"          columns = body.analyzeResult.pageResults.tables.columns,",
+						"          rows = body.analyzeResult.pageResults.tables.rows",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> flatten1",
+						"flatten2 aggregate(groupBy(TableNum,",
+						"          rowIndex),",
+						"     text = replace(trim(trim(toString(collect(text)), '['),']'),'\"','')) ~> aggregate1",
+						"rank1 foldDown(unroll(cells),",
+						"     mapColumn(",
+						"          page,",
+						"          TableNum,",
+						"          columnIndex = cells.columnIndex,",
+						"          isHeader = cells.isHeader,",
+						"          rowIndex = cells.rowIndex,",
+						"          text = cells.text",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> flatten2",
+						"flatten1 filter(not(isNull(cells))) ~> filter1",
+						"aggregate1 aggregate(groupBy(tableNum = 'TableNumber'+toString(TableNum)),",
+						"     text = replace(reduce(collect(text), '', #acc+#item+'\\n',#result),'\"','')) ~> aggregate2",
+						"filter1 rank(asc(page, true),",
+						"     asc(cells, true),",
+						"     output(TableNum as long)) ~> rank1",
+						"aggregate2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          {_col0_} as string",
+						"     ),",
+						"     format: 'delimited',",
+						"     fileSystem: ($OutputFolder),",
+						"     columnDelimiter: ',',",
+						"     escapeChar: '\\\\',",
+						"     quoteChar: '\\\"',",
+						"     columnNamesAsHeader: false,",
+						"     rowUrlColumn:'tableNum',",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     quoteAll: true,",
+						"     saveOrder: 1,",
+						"     mapColumn(",
+						"          {_col0_} = text",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/RestService1')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		}
+	]
+}
