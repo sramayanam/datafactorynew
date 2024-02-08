@@ -7,6 +7,9 @@
 		},
 		"annotations": [],
 		"type": "LakehouseTable",
-		"schema": []
+		"schema": [],
+		"typeProperties": {
+			"table": "FactSales"
+		}
 	}
 }
