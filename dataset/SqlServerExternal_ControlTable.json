@@ -3,7 +3,7 @@
 	"properties": {
 		"description": "The external control table is used to store the partition list of data source tables.",
 		"linkedServiceName": {
-			"referenceName": "AdventureWorks",
+			"referenceName": "onpremSqlServercontroltable",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
