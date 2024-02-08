@@ -1,5 +1,5 @@
 {
-	"name": "Copy data from on premise SQL Server to SQL Azure",
+	"name": "Copy data from on premise SQL Server to fabric",
 	"properties": {
 		"description": "Copy data from on premise SQL Server to SQL Azure.\n\nYou can also go to \"Copy Data Tool\" to get the pipeline for more connectors and scenarios.",
 		"activities": [
