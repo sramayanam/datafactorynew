@@ -17,7 +17,7 @@
 		"typeProperties": {
 			"schema": "dbo",
 			"table": {
-				"value": "@dataset().TableName",
+				"value": "controltable",
 				"type": "Expression"
 			}
 		}
