@@ -1,0 +1,16 @@
+{
+	"name": "SqlServerTableparam",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AdventureWorks",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "@item()"
+		}
+	}
+}
