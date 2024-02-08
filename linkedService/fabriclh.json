@@ -1,0 +1,12 @@
+{
+	"name": "fabriclh",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://aaaorgmlstorage.dfs.core.windows.net/",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDk5NjhBOEUzLTgxRUItNDNCQS05M0U5LTY5MzE3QTk2QTdEMV9mN2JiNjgxNy0wYTgzLTRhMjItYTRkOC04NjNhZTU0NTJlY2UiDQp9"
+		}
+	}
+}
