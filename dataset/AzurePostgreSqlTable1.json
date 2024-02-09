@@ -9,7 +9,8 @@
 		"type": "AzurePostgreSqlTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "@item()"
+			"schema": "",
+			"table": "@item()"
 		}
 	}
 }
