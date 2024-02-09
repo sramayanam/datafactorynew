@@ -1434,164 +1434,141 @@
 						"precision": 10
 					},
 					{
-						"name": "ProductAlternateKey",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProductSubcategoryKey",
+						"name": "OrderDateKey",
 						"type": "int",
 						"precision": 10
 					},
 					{
-						"name": "WeightUnitMeasureCode",
-						"type": "nchar"
+						"name": "DueDateKey",
+						"type": "int",
+						"precision": 10
 					},
 					{
-						"name": "SizeUnitMeasureCode",
-						"type": "nchar"
+						"name": "ShipDateKey",
+						"type": "int",
+						"precision": 10
 					},
 					{
-						"name": "EnglishProductName",
+						"name": "CustomerKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PromotionKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CurrencyKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SalesTerritoryKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SalesOrderNumber",
 						"type": "nvarchar"
 					},
 					{
-						"name": "SpanishProductName",
-						"type": "nvarchar"
+						"name": "SalesOrderLineNumber",
+						"type": "tinyint",
+						"precision": 3
 					},
 					{
-						"name": "FrenchProductName",
-						"type": "nvarchar"
+						"name": "RevisionNumber",
+						"type": "tinyint",
+						"precision": 3
 					},
 					{
-						"name": "StandardCost",
+						"name": "OrderQuantity",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "UnitPrice",
 						"type": "money",
 						"precision": 19,
 						"scale": 4
 					},
 					{
-						"name": "FinishedGoodsFlag",
-						"type": "bit"
-					},
-					{
-						"name": "Color",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SafetyStockLevel",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "ReorderPoint",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "ListPrice",
+						"name": "ExtendedAmount",
 						"type": "money",
 						"precision": 19,
 						"scale": 4
 					},
 					{
-						"name": "Size",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SizeRange",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Weight",
+						"name": "UnitPriceDiscountPct",
 						"type": "float",
 						"precision": 15
 					},
 					{
-						"name": "DaysToManufacture",
-						"type": "int",
-						"precision": 10
+						"name": "DiscountAmount",
+						"type": "float",
+						"precision": 15
 					},
 					{
-						"name": "ProductLine",
-						"type": "nchar"
-					},
-					{
-						"name": "DealerPrice",
+						"name": "ProductStandardCost",
 						"type": "money",
 						"precision": 19,
 						"scale": 4
 					},
 					{
-						"name": "Class",
-						"type": "nchar"
+						"name": "TotalProductCost",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
 					},
 					{
-						"name": "Style",
-						"type": "nchar"
+						"name": "SalesAmount",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
 					},
 					{
-						"name": "ModelName",
+						"name": "TaxAmt",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Freight",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "CarrierTrackingNumber",
 						"type": "nvarchar"
 					},
 					{
-						"name": "LargePhoto",
-						"type": "varbinary"
-					},
-					{
-						"name": "EnglishDescription",
+						"name": "CustomerPONumber",
 						"type": "nvarchar"
 					},
 					{
-						"name": "FrenchDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ChineseDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ArabicDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "HebrewDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ThaiDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "GermanDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "JapaneseDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TurkishDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "StartDate",
+						"name": "OrderDate",
 						"type": "datetime",
 						"precision": 23,
 						"scale": 3
 					},
 					{
-						"name": "EndDate",
+						"name": "DueDate",
 						"type": "datetime",
 						"precision": 23,
 						"scale": 3
 					},
 					{
-						"name": "Status",
-						"type": "nvarchar"
+						"name": "ShipDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "DimProduct"
+					"table": "FactInternetSales"
 				}
 			},
 			"dependsOn": [
@@ -2473,428 +2450,316 @@
 									},
 									{
 										"source": {
-											"name": "ProductAlternateKey",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "productalternatekey",
-											"type": "String",
-											"physicalType": "character varying"
-										}
-									},
-									{
-										"source": {
-											"name": "ProductSubcategoryKey",
+											"name": "OrderDateKey",
 											"type": "Int32",
 											"physicalType": "int"
 										},
 										"sink": {
-											"name": "productsubcategorykey",
+											"name": "orderdatekey",
 											"type": "Int32",
 											"physicalType": "integer"
 										}
 									},
 									{
 										"source": {
-											"name": "WeightUnitMeasureCode",
-											"type": "String",
-											"physicalType": "nchar"
+											"name": "DueDateKey",
+											"type": "Int32",
+											"physicalType": "int"
 										},
 										"sink": {
-											"name": "weightunitmeasurecode",
-											"type": "String",
-											"physicalType": "character varying"
+											"name": "duedatekey",
+											"type": "Int32",
+											"physicalType": "integer"
 										}
 									},
 									{
 										"source": {
-											"name": "SizeUnitMeasureCode",
-											"type": "String",
-											"physicalType": "nchar"
+											"name": "ShipDateKey",
+											"type": "Int32",
+											"physicalType": "int"
 										},
 										"sink": {
-											"name": "sizeunitmeasurecode",
-											"type": "String",
-											"physicalType": "character varying"
+											"name": "shipdatekey",
+											"type": "Int32",
+											"physicalType": "integer"
 										}
 									},
 									{
 										"source": {
-											"name": "EnglishProductName",
+											"name": "CustomerKey",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "customerkey",
+											"type": "Int32",
+											"physicalType": "integer"
+										}
+									},
+									{
+										"source": {
+											"name": "PromotionKey",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "promotionkey",
+											"type": "Int32",
+											"physicalType": "integer"
+										}
+									},
+									{
+										"source": {
+											"name": "CurrencyKey",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "currencykey",
+											"type": "Int32",
+											"physicalType": "integer"
+										}
+									},
+									{
+										"source": {
+											"name": "SalesTerritoryKey",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "salesterritorykey",
+											"type": "Int32",
+											"physicalType": "integer"
+										}
+									},
+									{
+										"source": {
+											"name": "SalesOrderNumber",
 											"type": "String",
 											"physicalType": "nvarchar"
 										},
 										"sink": {
-											"name": "englishproductname",
+											"name": "salesordernumber",
 											"type": "String",
 											"physicalType": "character varying"
 										}
 									},
 									{
 										"source": {
-											"name": "SpanishProductName",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "SalesOrderLineNumber",
+											"type": "Byte",
+											"physicalType": "tinyint"
 										},
 										"sink": {
-											"name": "spanishproductname",
-											"type": "String",
-											"physicalType": "character varying"
+											"name": "salesorderlinenumber",
+											"type": "Int32",
+											"physicalType": "integer"
 										}
 									},
 									{
 										"source": {
-											"name": "FrenchProductName",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "RevisionNumber",
+											"type": "Byte",
+											"physicalType": "tinyint"
 										},
 										"sink": {
-											"name": "frenchproductname",
-											"type": "String",
-											"physicalType": "character varying"
+											"name": "revisionnumber",
+											"type": "Int32",
+											"physicalType": "integer"
 										}
 									},
 									{
 										"source": {
-											"name": "StandardCost",
+											"name": "OrderQuantity",
+											"type": "Int16",
+											"physicalType": "smallint"
+										},
+										"sink": {
+											"name": "orderquantity",
+											"type": "Int32",
+											"physicalType": "integer"
+										}
+									},
+									{
+										"source": {
+											"name": "UnitPrice",
 											"type": "Decimal",
 											"physicalType": "money",
 											"scale": 4,
 											"precision": 19
 										},
 										"sink": {
-											"name": "standardcost",
+											"name": "unitprice",
 											"type": "Double",
 											"physicalType": "double precision"
 										}
 									},
 									{
 										"source": {
-											"name": "FinishedGoodsFlag",
-											"type": "Boolean",
-											"physicalType": "bit"
-										},
-										"sink": {
-											"name": "finishedgoodsflag",
-											"type": "String",
-											"physicalType": "character varying"
-										}
-									},
-									{
-										"source": {
-											"name": "Color",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "color",
-											"type": "String",
-											"physicalType": "character varying"
-										}
-									},
-									{
-										"source": {
-											"name": "SafetyStockLevel",
-											"type": "Int16",
-											"physicalType": "smallint"
-										},
-										"sink": {
-											"name": "safetystocklevel",
-											"type": "Int32",
-											"physicalType": "integer"
-										}
-									},
-									{
-										"source": {
-											"name": "ReorderPoint",
-											"type": "Int16",
-											"physicalType": "smallint"
-										},
-										"sink": {
-											"name": "reorderpoint",
-											"type": "Int32",
-											"physicalType": "integer"
-										}
-									},
-									{
-										"source": {
-											"name": "ListPrice",
+											"name": "ExtendedAmount",
 											"type": "Decimal",
 											"physicalType": "money",
 											"scale": 4,
 											"precision": 19
 										},
 										"sink": {
-											"name": "listprice",
+											"name": "extendedamount",
 											"type": "Double",
 											"physicalType": "double precision"
 										}
 									},
 									{
 										"source": {
-											"name": "Size",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "size",
-											"type": "String",
-											"physicalType": "character varying"
-										}
-									},
-									{
-										"source": {
-											"name": "SizeRange",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "sizerange",
-											"type": "String",
-											"physicalType": "character varying"
-										}
-									},
-									{
-										"source": {
-											"name": "Weight",
+											"name": "UnitPriceDiscountPct",
 											"type": "Double",
 											"physicalType": "float"
 										},
 										"sink": {
-											"name": "weight",
+											"name": "unitpricediscountpct",
 											"type": "Double",
 											"physicalType": "double precision"
 										}
 									},
 									{
 										"source": {
-											"name": "DaysToManufacture",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "DiscountAmount",
+											"type": "Double",
+											"physicalType": "float"
 										},
 										"sink": {
-											"name": "daystomanufacture",
-											"type": "Int32",
-											"physicalType": "integer"
+											"name": "discountamount",
+											"type": "Double",
+											"physicalType": "double precision"
 										}
 									},
 									{
 										"source": {
-											"name": "ProductLine",
-											"type": "String",
-											"physicalType": "nchar"
-										},
-										"sink": {
-											"name": "productline",
-											"type": "String",
-											"physicalType": "character varying"
-										}
-									},
-									{
-										"source": {
-											"name": "DealerPrice",
+											"name": "ProductStandardCost",
 											"type": "Decimal",
 											"physicalType": "money",
 											"scale": 4,
 											"precision": 19
 										},
 										"sink": {
-											"name": "dealerprice",
+											"name": "productstandardcost",
 											"type": "Double",
 											"physicalType": "double precision"
 										}
 									},
 									{
 										"source": {
-											"name": "Class",
-											"type": "String",
-											"physicalType": "nchar"
+											"name": "TotalProductCost",
+											"type": "Decimal",
+											"physicalType": "money",
+											"scale": 4,
+											"precision": 19
 										},
 										"sink": {
-											"name": "class",
-											"type": "String",
-											"physicalType": "character varying"
+											"name": "totalproductcost",
+											"type": "Double",
+											"physicalType": "double precision"
 										}
 									},
 									{
 										"source": {
-											"name": "Style",
-											"type": "String",
-											"physicalType": "nchar"
+											"name": "SalesAmount",
+											"type": "Decimal",
+											"physicalType": "money",
+											"scale": 4,
+											"precision": 19
 										},
 										"sink": {
-											"name": "style",
-											"type": "String",
-											"physicalType": "character varying"
+											"name": "salesamount",
+											"type": "Double",
+											"physicalType": "double precision"
 										}
 									},
 									{
 										"source": {
-											"name": "ModelName",
+											"name": "TaxAmt",
+											"type": "Decimal",
+											"physicalType": "money",
+											"scale": 4,
+											"precision": 19
+										},
+										"sink": {
+											"name": "taxamt",
+											"type": "Double",
+											"physicalType": "double precision"
+										}
+									},
+									{
+										"source": {
+											"name": "Freight",
+											"type": "Decimal",
+											"physicalType": "money",
+											"scale": 4,
+											"precision": 19
+										},
+										"sink": {
+											"name": "freight",
+											"type": "Double",
+											"physicalType": "double precision"
+										}
+									},
+									{
+										"source": {
+											"name": "CarrierTrackingNumber",
 											"type": "String",
 											"physicalType": "nvarchar"
 										},
 										"sink": {
-											"name": "modelname",
+											"name": "carriertrackingnumber",
 											"type": "String",
 											"physicalType": "character varying"
 										}
 									},
 									{
 										"source": {
-											"name": "LargePhoto",
-											"type": "Byte[]",
-											"physicalType": "varbinary"
-										},
-										"sink": {
-											"name": "largephoto",
-											"type": "Byte[]",
-											"physicalType": "bytea"
-										}
-									},
-									{
-										"source": {
-											"name": "EnglishDescription",
+											"name": "CustomerPONumber",
 											"type": "String",
 											"physicalType": "nvarchar"
 										},
 										"sink": {
-											"name": "englishdescription",
+											"name": "customerponumber",
 											"type": "String",
 											"physicalType": "character varying"
 										}
 									},
 									{
 										"source": {
-											"name": "FrenchDescription",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "frenchdescription",
-											"type": "String",
-											"physicalType": "character varying"
-										}
-									},
-									{
-										"source": {
-											"name": "ChineseDescription",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "chinesedescription",
-											"type": "String",
-											"physicalType": "character varying"
-										}
-									},
-									{
-										"source": {
-											"name": "ArabicDescription",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "arabicdescription",
-											"type": "String",
-											"physicalType": "character varying"
-										}
-									},
-									{
-										"source": {
-											"name": "HebrewDescription",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "hebrewdescription",
-											"type": "String",
-											"physicalType": "character varying"
-										}
-									},
-									{
-										"source": {
-											"name": "ThaiDescription",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "thaidescription",
-											"type": "String",
-											"physicalType": "character varying"
-										}
-									},
-									{
-										"source": {
-											"name": "GermanDescription",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "germandescription",
-											"type": "String",
-											"physicalType": "character varying"
-										}
-									},
-									{
-										"source": {
-											"name": "JapaneseDescription",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "japanesedescription",
-											"type": "String",
-											"physicalType": "character varying"
-										}
-									},
-									{
-										"source": {
-											"name": "TurkishDescription",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "turkishdescription",
-											"type": "String",
-											"physicalType": "character varying"
-										}
-									},
-									{
-										"source": {
-											"name": "StartDate",
+											"name": "OrderDate",
 											"type": "DateTime",
 											"physicalType": "datetime"
 										},
 										"sink": {
-											"name": "startdate",
+											"name": "orderdate",
 											"type": "DateTime",
 											"physicalType": "timestamp without time zone"
 										}
 									},
 									{
 										"source": {
-											"name": "EndDate",
+											"name": "DueDate",
 											"type": "DateTime",
 											"physicalType": "datetime"
 										},
 										"sink": {
-											"name": "enddate",
+											"name": "duedate",
 											"type": "DateTime",
 											"physicalType": "timestamp without time zone"
 										}
 									},
 									{
 										"source": {
-											"name": "Status",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "ShipDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
 										},
 										"sink": {
-											"name": "status",
-											"type": "String",
-											"physicalType": "character varying"
+											"name": "shipdate",
+											"type": "DateTime",
+											"physicalType": "timestamp without time zone"
 										}
 									}
 								],
@@ -2964,10 +2829,167 @@
 				},
 				"annotations": [],
 				"type": "AzurePostgreSqlTable",
-				"schema": [],
+				"schema": [
+					{
+						"name": "productkey",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "orderdatekey",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "duedatekey",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "shipdatekey",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "customerkey",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "promotionkey",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "currencykey",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "salesterritorykey",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "salesordernumber",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "salesorderlinenumber",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "revisionnumber",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "orderquantity",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "unitprice",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "extendedamount",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "unitpricediscountpct",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "discountamount",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "productstandardcost",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "totalproductcost",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "salesamount",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "taxamt",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "freight",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "carriertrackingnumber",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "customerponumber",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "orderdate",
+						"type": "timestamp without time zone",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "duedate",
+						"type": "timestamp without time zone",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "shipdate",
+						"type": "timestamp without time zone",
+						"precision": 0,
+						"scale": 0
+					}
+				],
 				"typeProperties": {
 					"schema": "dw",
-					"table": "dimproduct"
+					"table": "factinternetsales"
 				}
 			},
 			"dependsOn": [
