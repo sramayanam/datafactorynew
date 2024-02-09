@@ -1,5 +1,5 @@
 {
-	"name": "bulkcopytofabric_copy1",
+	"name": "bulkcopytopgsql",
 	"properties": {
 		"activities": [
 			{
