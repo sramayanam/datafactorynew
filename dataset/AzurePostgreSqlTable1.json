@@ -167,7 +167,7 @@
 		],
 		"typeProperties": {
 			"schema": "dw",
-			"table": "factinternetsales"
+			"table": "dimcustomer"
 		}
 	}
 }

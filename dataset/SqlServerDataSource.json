@@ -149,7 +149,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "FactInternetSales"
+			"table": "DimCustomer"
 		}
 	}
 }
