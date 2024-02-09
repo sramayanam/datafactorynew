@@ -72,7 +72,7 @@
 		"parameters": {
 			"tablename": {
 				"type": "array",
-				"defaultValue": "[DimAccount,DimCurrency,DimCustomer,DimDate,DimDepartmentGroup,DimEmployee,DimGeography,DimOrganization,DimProduct,DimProductCategory,DimProductSubcategory,DimPromotion,DimReseller,DimSalesReason,DimSalesTerritory,DimScenario]"
+				"defaultValue": "['DimAccount','DimCurrency','DimCustomer','DimDate','DimDepartmentGroup','DimEmployee','DimGeography','DimOrganization','DimProduct','DimProductCategory','DimProductSubcategory','DimPromotion','DimReseller','DimSalesReason','DimSalesTerritory','DimScenario']"
 			}
 		},
 		"annotations": []
