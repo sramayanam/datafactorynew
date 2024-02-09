@@ -32,15 +32,8 @@
 									"partitionOption": "None"
 								},
 								"sink": {
-									"type": "DelimitedTextSink",
-									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings"
-									},
-									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"quoteAllText": true,
-										"fileExtension": ".txt"
-									}
+									"type": "LakehouseTableSink",
+									"tableActionOption": "Append"
 								},
 								"enableStaging": false,
 								"translator": {
@@ -60,7 +53,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DelimitedText1",
+									"referenceName": "LakehouseTable2",
 									"type": "DatasetReference"
 								}
 							]
