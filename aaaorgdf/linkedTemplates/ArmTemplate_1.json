@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'OnpremPostGres'"
 		},
+		"onpremSqlServercontroltable_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'onpremSqlServercontroltable'"
+		},
 		"EventTriggerscr_properties_RunSparkJob_parameters_copyFolder": {
 			"type": "string",
 			"defaultValue": "@triggerBody().folderPath"
@@ -361,6 +365,53 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/onpremSqlServercontroltable')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('onpremSqlServercontroltable_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "integrationRuntime1",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "{@item()}",
+							"type": "Expression"
+						},
+						"folderPath": "adfoutput",
+						"fileSystem": "adfoutput"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Extract data from PDF')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -658,27 +709,27 @@
 			"properties": {
 				"description": "The external control table is used to store the partition list of data source tables.",
 				"linkedServiceName": {
-					"referenceName": "AdventureWorks",
+					"referenceName": "onpremSqlServercontroltable",
 					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"TableName": {
-						"type": "String"
-					}
 				},
 				"annotations": [],
 				"type": "SqlServerTable",
-				"schema": [],
+				"schema": [
+					{
+						"name": "TABLE_NAME",
+						"type": "nvarchar"
+					}
+				],
 				"typeProperties": {
 					"schema": "dbo",
 					"table": {
-						"value": "@dataset().TableName",
+						"value": "controltable",
 						"type": "Expression"
 					}
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AdventureWorks')]"
+				"[concat(variables('factoryId'), '/linkedServices/onpremSqlServercontroltable')]"
 			]
 		},
 		{
@@ -941,6 +992,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTableparam')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorks",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "@item()"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorks')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Copy data from on premise SQL Server to fabric')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1005,455 +1077,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SqlServerTable1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DeltaCopyfromPostGres')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Copy new or updated rows only from database using external control table",
-				"activities": [
-					{
-						"name": "LookupLastWaterMark",
-						"description": "Retrieve  the last high-watermark value stored in external control table",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlSource",
-								"sqlReaderQuery": {
-									"value": "select @{pipeline().parameters.Control_Table_Column_Name} as WatermarkValue from @{pipeline().parameters.Control_Table_Table_Name}",
-									"type": "Expression"
-								},
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "AzureSqlDatabaseExternal_ControlTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "DeltaCopyfromDB",
-						"description": "Copy activity to use query to filter the delta data by > last high-watermark and <= current high-watermark from source database, and then only copy the changes to the destination store.",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "LookupLastWaterMark",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "LookupCurrentWaterMark",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "PostgreSqlSource",
-								"query": {
-									"value": "select * from @{pipeline().parameters.Data_Source_Table_Name} where @{pipeline().parameters.Data_Source_WaterMarkColumn} > '@{activity('LookupLastWaterMark').output.firstRow.WatermarkValue}' and @{pipeline().parameters.Data_Source_WaterMarkColumn} <= '@{activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue}'",
-									"type": "Expression"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"dataIntegrationUnits": 0
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_eqk",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_eqk",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "UpdateWaterMark",
-						"description": "Stored procedure activity to store the new high-watermark value into external control table for delta data loading. ",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "DeltaCopyfromDB",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[update_watermark]",
-							"storedProcedureParameters": {
-								"LastModifiedtime": {
-									"value": {
-										"value": "@activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue",
-										"type": "Expression"
-									},
-									"type": "datetime"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureSQLControlDB",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "LookupCurrentWaterMark",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "PostgreSqlSource",
-								"query": {
-									"value": "select max(@{pipeline().parameters.Data_Source_WaterMarkColumn}) as NewWatermarkValue from @{pipeline().parameters.Data_Source_Table_Name}",
-									"type": "Expression"
-								}
-							},
-							"dataset": {
-								"referenceName": "SourceDataset_eqk",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"Data_Source_Table_Name": {
-						"type": "String",
-						"defaultValue": "orders"
-					},
-					"Data_Source_WaterMarkColumn": {
-						"type": "String",
-						"defaultValue": "order_date"
-					},
-					"Data_Destination_Folder_Path": {
-						"type": "String",
-						"defaultValue": "/rawdata/orders/"
-					},
-					"Control_Table_Table_Name": {
-						"type": "String",
-						"defaultValue": "watermarktable"
-					},
-					"Control_Table_Column_Name": {
-						"type": "String",
-						"defaultValue": "WatermarkValue"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceDataset_eqk')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Extract_OnPremData')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Coppy_postgres_to_datalake",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "public.orders"
-							},
-							{
-								"name": "Destination",
-								"value": "rawdata//"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "PostgreSqlSource"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "order_id",
-											"type": "Int16"
-										},
-										"sink": {
-											"name": "order_id",
-											"type": "Int16"
-										}
-									},
-									{
-										"source": {
-											"name": "customer_id",
-											"type": "String"
-										},
-										"sink": {
-											"name": "customer_id",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "employee_id",
-											"type": "Int16"
-										},
-										"sink": {
-											"name": "employee_id",
-											"type": "Int16"
-										}
-									},
-									{
-										"source": {
-											"name": "order_date",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "order_date",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "required_date",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "required_date",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "shipped_date",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "shipped_date",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "ship_via",
-											"type": "Int16"
-										},
-										"sink": {
-											"name": "ship_via",
-											"type": "Int16"
-										}
-									},
-									{
-										"source": {
-											"name": "freight",
-											"type": "Single"
-										},
-										"sink": {
-											"name": "freight",
-											"type": "Single"
-										}
-									},
-									{
-										"source": {
-											"name": "ship_name",
-											"type": "String"
-										},
-										"sink": {
-											"name": "ship_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ship_address",
-											"type": "String"
-										},
-										"sink": {
-											"name": "ship_address",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ship_city",
-											"type": "String"
-										},
-										"sink": {
-											"name": "ship_city",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ship_region",
-											"type": "String"
-										},
-										"sink": {
-											"name": "ship_region",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ship_postal_code",
-											"type": "String"
-										},
-										"sink": {
-											"name": "ship_postal_code",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ship_country",
-											"type": "String"
-										},
-										"sink": {
-											"name": "ship_country",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_eqk",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_eqk",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceDataset_eqk')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MappingDataFlow_Cosmos')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "LoadFromCosmos",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "LoadFromCosmos",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"iotdata": {},
-									"LoadtoDatalake": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/LoadFromCosmos')]"
 			]
 		}
 	]

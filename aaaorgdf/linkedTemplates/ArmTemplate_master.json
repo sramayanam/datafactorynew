@@ -47,6 +47,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'servicePrincipalKey' of 'scrmlservice'"
 		},
+		"onpremSqlServercontroltable_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'onpremSqlServercontroltable'"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://aaaorgmlstorage.dfs.core.windows.net/"
@@ -230,6 +234,9 @@
 					"OnpremPostGres_connectionString": {
 						"value": "[parameters('OnpremPostGres_connectionString')]"
 					},
+					"onpremSqlServercontroltable_connectionString": {
+						"value": "[parameters('onpremSqlServercontroltable_connectionString')]"
+					},
 					"EventTriggerscr_properties_RunSparkJob_parameters_copyFolder": {
 						"value": "[parameters('EventTriggerscr_properties_RunSparkJob_parameters_copyFolder')]"
 					},
@@ -252,6 +259,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'aaaorgdf_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "aaaorgdf_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'aaaorgdf_ArmTemplate_1')]"
 			]
 		}
 	]

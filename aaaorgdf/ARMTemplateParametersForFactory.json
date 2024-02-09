@@ -35,6 +35,9 @@
 		"scrmlservice_servicePrincipalKey": {
 			"value": ""
 		},
+		"onpremSqlServercontroltable_connectionString": {
+			"value": ""
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://aaaorgmlstorage.dfs.core.windows.net/"
 		},
