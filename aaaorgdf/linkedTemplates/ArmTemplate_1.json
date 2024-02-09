@@ -608,7 +608,7 @@
 				],
 				"typeProperties": {
 					"schema": "dw",
-					"table": "factinternetsales"
+					"table": "dimcustomer"
 				}
 			},
 			"dependsOn": []
@@ -1035,7 +1035,7 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "FactInternetSales"
+					"table": "DimCustomer"
 				}
 			},
 			"dependsOn": [
