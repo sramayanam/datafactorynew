@@ -450,158 +450,176 @@
 				"type": "AzurePostgreSqlTable",
 				"schema": [
 					{
-						"name": "productkey",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "orderdatekey",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "duedatekey",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "shipdatekey",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
 						"name": "customerkey",
 						"type": "integer",
 						"precision": 0,
 						"scale": 0
 					},
 					{
-						"name": "promotionkey",
+						"name": "geographykey",
 						"type": "integer",
 						"precision": 0,
 						"scale": 0
 					},
 					{
-						"name": "currencykey",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "salesterritorykey",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "salesordernumber",
+						"name": "customeralternatekey",
 						"type": "character varying",
 						"precision": 0,
 						"scale": 0
 					},
 					{
-						"name": "salesorderlinenumber",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "revisionnumber",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "orderquantity",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "unitprice",
-						"type": "double precision",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "extendedamount",
-						"type": "double precision",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "unitpricediscountpct",
-						"type": "double precision",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "discountamount",
-						"type": "double precision",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "productstandardcost",
-						"type": "double precision",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "totalproductcost",
-						"type": "double precision",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "salesamount",
-						"type": "double precision",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "taxamt",
-						"type": "double precision",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "freight",
-						"type": "double precision",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "carriertrackingnumber",
+						"name": "title",
 						"type": "character varying",
 						"precision": 0,
 						"scale": 0
 					},
 					{
-						"name": "customerponumber",
+						"name": "firstname",
 						"type": "character varying",
 						"precision": 0,
 						"scale": 0
 					},
 					{
-						"name": "orderdate",
-						"type": "timestamp without time zone",
+						"name": "middlename",
+						"type": "character varying",
 						"precision": 0,
 						"scale": 0
 					},
 					{
-						"name": "duedate",
-						"type": "timestamp without time zone",
+						"name": "lastname",
+						"type": "character varying",
 						"precision": 0,
 						"scale": 0
 					},
 					{
-						"name": "shipdate",
-						"type": "timestamp without time zone",
+						"name": "namestyle",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "birthdate",
+						"type": "date",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "maritalstatus",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "suffix",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "gender",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "emailaddress",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "yearlyincome",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "totalchildren",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "numberchildrenathome",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "englisheducation",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "spanisheducation",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "frencheducation",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "englishoccupation",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "spanishoccupation",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "frenchoccupation",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "houseownerflag",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "numbercarsowned",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "addressline1",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "addressline2",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "phone",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "datefirstpurchase",
+						"type": "date",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "commutedistance",
+						"type": "character varying",
 						"precision": 0,
 						"scale": 0
 					}
@@ -896,141 +914,127 @@
 				"type": "SqlServerTable",
 				"schema": [
 					{
-						"name": "ProductKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "OrderDateKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "DueDateKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ShipDateKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
 						"name": "CustomerKey",
 						"type": "int",
 						"precision": 10
 					},
 					{
-						"name": "PromotionKey",
+						"name": "GeographyKey",
 						"type": "int",
 						"precision": 10
 					},
 					{
-						"name": "CurrencyKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SalesTerritoryKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SalesOrderNumber",
+						"name": "CustomerAlternateKey",
 						"type": "nvarchar"
 					},
 					{
-						"name": "SalesOrderLineNumber",
+						"name": "Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NameStyle",
+						"type": "bit"
+					},
+					{
+						"name": "BirthDate",
+						"type": "date"
+					},
+					{
+						"name": "MaritalStatus",
+						"type": "nchar"
+					},
+					{
+						"name": "Suffix",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Gender",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "YearlyIncome",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TotalChildren",
 						"type": "tinyint",
 						"precision": 3
 					},
 					{
-						"name": "RevisionNumber",
+						"name": "NumberChildrenAtHome",
 						"type": "tinyint",
 						"precision": 3
 					},
 					{
-						"name": "OrderQuantity",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "UnitPrice",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "ExtendedAmount",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "UnitPriceDiscountPct",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "DiscountAmount",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "ProductStandardCost",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "TotalProductCost",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "SalesAmount",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "TaxAmt",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "Freight",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "CarrierTrackingNumber",
+						"name": "EnglishEducation",
 						"type": "nvarchar"
 					},
 					{
-						"name": "CustomerPONumber",
+						"name": "SpanishEducation",
 						"type": "nvarchar"
 					},
 					{
-						"name": "OrderDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
+						"name": "FrenchEducation",
+						"type": "nvarchar"
 					},
 					{
-						"name": "DueDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
+						"name": "EnglishOccupation",
+						"type": "nvarchar"
 					},
 					{
-						"name": "ShipDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
+						"name": "SpanishOccupation",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FrenchOccupation",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HouseOwnerFlag",
+						"type": "nchar"
+					},
+					{
+						"name": "NumberCarsOwned",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "AddressLine1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressLine2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Phone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DateFirstPurchase",
+						"type": "date"
+					},
+					{
+						"name": "CommuteDistance",
+						"type": "nvarchar"
 					}
 				],
 				"typeProperties": {
