@@ -43,13 +43,17 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'iotcoll'"
 		},
+		"onpremSqlServercontroltable_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'onpremSqlServercontroltable'"
+		},
 		"scrmlservice_servicePrincipalKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'servicePrincipalKey' of 'scrmlservice'"
 		},
-		"onpremSqlServercontroltable_connectionString": {
+		"AzurePostgreSql1_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'onpremSqlServercontroltable'"
+			"metadata": "Secure string for 'connectionString' of 'AzurePostgreSql1'"
 		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
@@ -174,6 +178,9 @@
 					"scrmlservice_servicePrincipalKey": {
 						"value": "[parameters('scrmlservice_servicePrincipalKey')]"
 					},
+					"AzurePostgreSql1_connectionString": {
+						"value": "[parameters('AzurePostgreSql1_connectionString')]"
+					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
 					},
@@ -245,15 +252,6 @@
 					},
 					"EventTriggerscr_properties_typeProperties_scope": {
 						"value": "[parameters('EventTriggerscr_properties_typeProperties_scope')]"
-					},
-					"onfilearrival_properties_RunSparkJob_parameters_copyFolder": {
-						"value": "[parameters('onfilearrival_properties_RunSparkJob_parameters_copyFolder')]"
-					},
-					"onfilearrival_properties_RunSparkJob_parameters_copyFile": {
-						"value": "[parameters('onfilearrival_properties_RunSparkJob_parameters_copyFile')]"
-					},
-					"onfilearrival_properties_typeProperties_scope": {
-						"value": "[parameters('onfilearrival_properties_typeProperties_scope')]"
 					}
 				}
 			},
@@ -274,6 +272,15 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"onfilearrival_properties_RunSparkJob_parameters_copyFolder": {
+						"value": "[parameters('onfilearrival_properties_RunSparkJob_parameters_copyFolder')]"
+					},
+					"onfilearrival_properties_RunSparkJob_parameters_copyFile": {
+						"value": "[parameters('onfilearrival_properties_RunSparkJob_parameters_copyFile')]"
+					},
+					"onfilearrival_properties_typeProperties_scope": {
+						"value": "[parameters('onfilearrival_properties_typeProperties_scope')]"
 					}
 				}
 			},

@@ -32,10 +32,13 @@
 		"iotcoll_connectionString": {
 			"value": ""
 		},
+		"onpremSqlServercontroltable_connectionString": {
+			"value": ""
+		},
 		"scrmlservice_servicePrincipalKey": {
 			"value": ""
 		},
-		"onpremSqlServercontroltable_connectionString": {
+		"AzurePostgreSql1_connectionString": {
 			"value": ""
 		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
