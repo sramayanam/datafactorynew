@@ -2341,8 +2341,8 @@
 					"tablename": {
 						"type": "array",
 						"defaultValue": [
-							"FactInternetSales",
-							"DimProduct"
+							"factinternetsales",
+							"dimproduct"
 						]
 					}
 				},
@@ -2380,10 +2380,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "dw",
-					"table": {
-						"value": "toLower(@item())",
-						"type": "Expression"
-					}
+					"table": "@item()"
 				}
 			},
 			"dependsOn": [
