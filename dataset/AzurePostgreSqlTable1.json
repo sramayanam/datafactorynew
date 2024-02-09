@@ -11,7 +11,7 @@
 		"typeProperties": {
 			"schema": "dw",
 			"table": {
-				"value": "toLower(@item())",
+				"value": "toLower({@item()})",
 				"type": "Expression"
 			}
 		}
