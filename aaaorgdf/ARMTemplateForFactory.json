@@ -2380,7 +2380,10 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "dw",
-					"table": "@item()"
+					"table": {
+						"value": "toLower(@item())",
+						"type": "Expression"
+					}
 				}
 			},
 			"dependsOn": [
