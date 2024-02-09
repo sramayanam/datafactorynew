@@ -68,8 +68,8 @@
 			"tablename": {
 				"type": "array",
 				"defaultValue": [
-					"FactInternetSales",
-					"DimProduct"
+					"factinternetsales",
+					"dimproduct"
 				]
 			}
 		},
