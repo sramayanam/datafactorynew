@@ -2093,7 +2093,7 @@
 										"sink": {
 											"type": "DelimitedTextSink",
 											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings"
+												"type": "LakehouseWriteSettings"
 											},
 											"formatSettings": {
 												"type": "DelimitedTextWriteSettings",
@@ -2120,7 +2120,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "DelimitedText1",
+											"referenceName": "DelimitedText2",
 											"type": "DatasetReference",
 											"parameters": {}
 										}
@@ -2160,7 +2160,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SqlServerTableparam')]",
-				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]"
+				"[concat(variables('factoryId'), '/datasets/DelimitedText2')]"
 			]
 		},
 		{
@@ -2229,6 +2229,32 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Lakehouse1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "LakehouseLocation"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Lakehouse1')]"
 			]
 		}
 	]
