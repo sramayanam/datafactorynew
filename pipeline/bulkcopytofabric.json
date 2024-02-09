@@ -32,8 +32,15 @@
 									"partitionOption": "None"
 								},
 								"sink": {
-									"type": "LakehouseTableSink",
-									"tableActionOption": "Append"
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "LakehouseWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
 								},
 								"enableStaging": false,
 								"translator": {
@@ -53,7 +60,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "LakehouseTable2",
+									"referenceName": "DelimitedText2",
 									"type": "DatasetReference"
 								}
 							]
