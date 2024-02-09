@@ -395,10 +395,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": {
-							"value": "{@item()}",
-							"type": "Expression"
-						},
 						"folderPath": "adfoutput",
 						"fileSystem": "adfoutput"
 					},
