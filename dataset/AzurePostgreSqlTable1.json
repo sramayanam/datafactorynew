@@ -9,158 +9,176 @@
 		"type": "AzurePostgreSqlTable",
 		"schema": [
 			{
-				"name": "productkey",
-				"type": "integer",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "orderdatekey",
-				"type": "integer",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "duedatekey",
-				"type": "integer",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "shipdatekey",
-				"type": "integer",
-				"precision": 0,
-				"scale": 0
-			},
-			{
 				"name": "customerkey",
 				"type": "integer",
 				"precision": 0,
 				"scale": 0
 			},
 			{
-				"name": "promotionkey",
+				"name": "geographykey",
 				"type": "integer",
 				"precision": 0,
 				"scale": 0
 			},
 			{
-				"name": "currencykey",
-				"type": "integer",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "salesterritorykey",
-				"type": "integer",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "salesordernumber",
+				"name": "customeralternatekey",
 				"type": "character varying",
 				"precision": 0,
 				"scale": 0
 			},
 			{
-				"name": "salesorderlinenumber",
-				"type": "integer",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "revisionnumber",
-				"type": "integer",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "orderquantity",
-				"type": "integer",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "unitprice",
-				"type": "double precision",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "extendedamount",
-				"type": "double precision",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "unitpricediscountpct",
-				"type": "double precision",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "discountamount",
-				"type": "double precision",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "productstandardcost",
-				"type": "double precision",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "totalproductcost",
-				"type": "double precision",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "salesamount",
-				"type": "double precision",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "taxamt",
-				"type": "double precision",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "freight",
-				"type": "double precision",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "carriertrackingnumber",
+				"name": "title",
 				"type": "character varying",
 				"precision": 0,
 				"scale": 0
 			},
 			{
-				"name": "customerponumber",
+				"name": "firstname",
 				"type": "character varying",
 				"precision": 0,
 				"scale": 0
 			},
 			{
-				"name": "orderdate",
-				"type": "timestamp without time zone",
+				"name": "middlename",
+				"type": "character varying",
 				"precision": 0,
 				"scale": 0
 			},
 			{
-				"name": "duedate",
-				"type": "timestamp without time zone",
+				"name": "lastname",
+				"type": "character varying",
 				"precision": 0,
 				"scale": 0
 			},
 			{
-				"name": "shipdate",
-				"type": "timestamp without time zone",
+				"name": "namestyle",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "birthdate",
+				"type": "date",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "maritalstatus",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "suffix",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "gender",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "emailaddress",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "yearlyincome",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "totalchildren",
+				"type": "integer",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "numberchildrenathome",
+				"type": "integer",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "englisheducation",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "spanisheducation",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "frencheducation",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "englishoccupation",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "spanishoccupation",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "frenchoccupation",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "houseownerflag",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "numbercarsowned",
+				"type": "integer",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "addressline1",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "addressline2",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "phone",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "datefirstpurchase",
+				"type": "date",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "commutedistance",
+				"type": "character varying",
 				"precision": 0,
 				"scale": 0
 			}

@@ -10,141 +10,127 @@
 		"type": "SqlServerTable",
 		"schema": [
 			{
-				"name": "ProductKey",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "OrderDateKey",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "DueDateKey",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "ShipDateKey",
-				"type": "int",
-				"precision": 10
-			},
-			{
 				"name": "CustomerKey",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "PromotionKey",
+				"name": "GeographyKey",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "CurrencyKey",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "SalesTerritoryKey",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "SalesOrderNumber",
+				"name": "CustomerAlternateKey",
 				"type": "nvarchar"
 			},
 			{
-				"name": "SalesOrderLineNumber",
+				"name": "Title",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FirstName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MiddleName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LastName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NameStyle",
+				"type": "bit"
+			},
+			{
+				"name": "BirthDate",
+				"type": "date"
+			},
+			{
+				"name": "MaritalStatus",
+				"type": "nchar"
+			},
+			{
+				"name": "Suffix",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Gender",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EmailAddress",
+				"type": "nvarchar"
+			},
+			{
+				"name": "YearlyIncome",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "TotalChildren",
 				"type": "tinyint",
 				"precision": 3
 			},
 			{
-				"name": "RevisionNumber",
+				"name": "NumberChildrenAtHome",
 				"type": "tinyint",
 				"precision": 3
 			},
 			{
-				"name": "OrderQuantity",
-				"type": "smallint",
-				"precision": 5
-			},
-			{
-				"name": "UnitPrice",
-				"type": "money",
-				"precision": 19,
-				"scale": 4
-			},
-			{
-				"name": "ExtendedAmount",
-				"type": "money",
-				"precision": 19,
-				"scale": 4
-			},
-			{
-				"name": "UnitPriceDiscountPct",
-				"type": "float",
-				"precision": 15
-			},
-			{
-				"name": "DiscountAmount",
-				"type": "float",
-				"precision": 15
-			},
-			{
-				"name": "ProductStandardCost",
-				"type": "money",
-				"precision": 19,
-				"scale": 4
-			},
-			{
-				"name": "TotalProductCost",
-				"type": "money",
-				"precision": 19,
-				"scale": 4
-			},
-			{
-				"name": "SalesAmount",
-				"type": "money",
-				"precision": 19,
-				"scale": 4
-			},
-			{
-				"name": "TaxAmt",
-				"type": "money",
-				"precision": 19,
-				"scale": 4
-			},
-			{
-				"name": "Freight",
-				"type": "money",
-				"precision": 19,
-				"scale": 4
-			},
-			{
-				"name": "CarrierTrackingNumber",
+				"name": "EnglishEducation",
 				"type": "nvarchar"
 			},
 			{
-				"name": "CustomerPONumber",
+				"name": "SpanishEducation",
 				"type": "nvarchar"
 			},
 			{
-				"name": "OrderDate",
-				"type": "datetime",
-				"precision": 23,
-				"scale": 3
+				"name": "FrenchEducation",
+				"type": "nvarchar"
 			},
 			{
-				"name": "DueDate",
-				"type": "datetime",
-				"precision": 23,
-				"scale": 3
+				"name": "EnglishOccupation",
+				"type": "nvarchar"
 			},
 			{
-				"name": "ShipDate",
-				"type": "datetime",
-				"precision": 23,
-				"scale": 3
+				"name": "SpanishOccupation",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FrenchOccupation",
+				"type": "nvarchar"
+			},
+			{
+				"name": "HouseOwnerFlag",
+				"type": "nchar"
+			},
+			{
+				"name": "NumberCarsOwned",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "AddressLine1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AddressLine2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Phone",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DateFirstPurchase",
+				"type": "date"
+			},
+			{
+				"name": "CommuteDistance",
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {
