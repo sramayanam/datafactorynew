@@ -15,164 +15,141 @@
 				"precision": 10
 			},
 			{
-				"name": "ProductAlternateKey",
-				"type": "nvarchar"
-			},
-			{
-				"name": "ProductSubcategoryKey",
+				"name": "OrderDateKey",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "WeightUnitMeasureCode",
-				"type": "nchar"
+				"name": "DueDateKey",
+				"type": "int",
+				"precision": 10
 			},
 			{
-				"name": "SizeUnitMeasureCode",
-				"type": "nchar"
+				"name": "ShipDateKey",
+				"type": "int",
+				"precision": 10
 			},
 			{
-				"name": "EnglishProductName",
+				"name": "CustomerKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PromotionKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CurrencyKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SalesTerritoryKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SalesOrderNumber",
 				"type": "nvarchar"
 			},
 			{
-				"name": "SpanishProductName",
-				"type": "nvarchar"
+				"name": "SalesOrderLineNumber",
+				"type": "tinyint",
+				"precision": 3
 			},
 			{
-				"name": "FrenchProductName",
-				"type": "nvarchar"
+				"name": "RevisionNumber",
+				"type": "tinyint",
+				"precision": 3
 			},
 			{
-				"name": "StandardCost",
+				"name": "OrderQuantity",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "UnitPrice",
 				"type": "money",
 				"precision": 19,
 				"scale": 4
 			},
 			{
-				"name": "FinishedGoodsFlag",
-				"type": "bit"
-			},
-			{
-				"name": "Color",
-				"type": "nvarchar"
-			},
-			{
-				"name": "SafetyStockLevel",
-				"type": "smallint",
-				"precision": 5
-			},
-			{
-				"name": "ReorderPoint",
-				"type": "smallint",
-				"precision": 5
-			},
-			{
-				"name": "ListPrice",
+				"name": "ExtendedAmount",
 				"type": "money",
 				"precision": 19,
 				"scale": 4
 			},
 			{
-				"name": "Size",
-				"type": "nvarchar"
-			},
-			{
-				"name": "SizeRange",
-				"type": "nvarchar"
-			},
-			{
-				"name": "Weight",
+				"name": "UnitPriceDiscountPct",
 				"type": "float",
 				"precision": 15
 			},
 			{
-				"name": "DaysToManufacture",
-				"type": "int",
-				"precision": 10
+				"name": "DiscountAmount",
+				"type": "float",
+				"precision": 15
 			},
 			{
-				"name": "ProductLine",
-				"type": "nchar"
-			},
-			{
-				"name": "DealerPrice",
+				"name": "ProductStandardCost",
 				"type": "money",
 				"precision": 19,
 				"scale": 4
 			},
 			{
-				"name": "Class",
-				"type": "nchar"
+				"name": "TotalProductCost",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
 			},
 			{
-				"name": "Style",
-				"type": "nchar"
+				"name": "SalesAmount",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
 			},
 			{
-				"name": "ModelName",
+				"name": "TaxAmt",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "Freight",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "CarrierTrackingNumber",
 				"type": "nvarchar"
 			},
 			{
-				"name": "LargePhoto",
-				"type": "varbinary"
-			},
-			{
-				"name": "EnglishDescription",
+				"name": "CustomerPONumber",
 				"type": "nvarchar"
 			},
 			{
-				"name": "FrenchDescription",
-				"type": "nvarchar"
-			},
-			{
-				"name": "ChineseDescription",
-				"type": "nvarchar"
-			},
-			{
-				"name": "ArabicDescription",
-				"type": "nvarchar"
-			},
-			{
-				"name": "HebrewDescription",
-				"type": "nvarchar"
-			},
-			{
-				"name": "ThaiDescription",
-				"type": "nvarchar"
-			},
-			{
-				"name": "GermanDescription",
-				"type": "nvarchar"
-			},
-			{
-				"name": "JapaneseDescription",
-				"type": "nvarchar"
-			},
-			{
-				"name": "TurkishDescription",
-				"type": "nvarchar"
-			},
-			{
-				"name": "StartDate",
+				"name": "OrderDate",
 				"type": "datetime",
 				"precision": 23,
 				"scale": 3
 			},
 			{
-				"name": "EndDate",
+				"name": "DueDate",
 				"type": "datetime",
 				"precision": 23,
 				"scale": 3
 			},
 			{
-				"name": "Status",
-				"type": "nvarchar"
+				"name": "ShipDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
 			}
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "DimProduct"
+			"table": "FactInternetSales"
 		}
 	}
 }
